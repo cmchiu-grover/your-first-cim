@@ -15,11 +15,11 @@ async def posting(text: str = Form(...), file: UploadFile = Form(...)):
         webp_filename = f"{filename_oc.rsplit('.', 1)[0]}.webp"
         webp_content_type = "image/webp"
         
-        file_url = await upload_to_s3(file_webp_io, webp_filename, webp_content_type)
+        img_url = await upload_to_s3(file_webp_io, webp_filename, webp_content_type)
 
-        insert_text_img_data(text, file_url)
+        insert_text_img_data(text, img_url)
 
-        return {"text": text, "image_url": file_url}
+        return {"text": text, "img_url": img_url}
     else:
         return JSONResponse(status_code=500, content={"message": "Error converting image to webp"})
     

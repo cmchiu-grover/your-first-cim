@@ -16,7 +16,7 @@ messageImgForm.addEventListener("submit", async (e) => {
   messageText.textContent = data.text;
   let messageFigure = document.createElement("figure");
   let figureImg = document.createElement("img");
-  figureImg.src = data.image_url;
+  figureImg.src = data.img_url;
   messageFigure.appendChild(figureImg);
   messageImgDiv.appendChild(messageText);
   messageImgDiv.appendChild(messageFigure);
