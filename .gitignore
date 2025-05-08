@@ -1,1 +1,5 @@
 .env
+.env.backup
+__pycache__/
+style.css.map
+style.scss
