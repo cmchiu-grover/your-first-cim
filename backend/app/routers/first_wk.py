@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, Form
 from fastapi.responses import JSONResponse
-from backend.app.models.aws import convert_to_webp, upload_to_s3
-from backend.app.db.dbquery import insert_text_img_data, get_text_img_data
+from app.models.aws import convert_to_webp, upload_to_s3
+from app.db.dbquery import insert_text_img_data, get_text_img_data
 
 router = APIRouter()
 
