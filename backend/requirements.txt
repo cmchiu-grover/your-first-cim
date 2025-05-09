@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-multipart
+boto3
+mysql-connector-python
+python-dotenv
+Pillow
