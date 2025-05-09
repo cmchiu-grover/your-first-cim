@@ -1,4 +1,4 @@
-from backend.app.db.connect import get_connection_pool
+from app.db.connect import get_connection_pool
 
 def insert_text_img_data(msg_text: str, image_url: str):
     try:
