@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="preload"
+      href="/frontend/static/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>首頁</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main class="index_page">
+      <div class="index_background">
+        <div class="welcome">
+          <h1>Your First CIM App</h1>
+          <h2>從零開始，打造你的第一個 CIM 應用。</h2>
+          <h2>亦可快速體驗 CIM 概念，小型專案也能輕鬆導入！</h2>
+        </div>
+
+        <div class="signin_up_area">
+          <div class="signin_area">
+            <div class="decobar"></div>
+            <h2>使用者登入</h2>
+            <form id="signin_form" method="post" action="/api/user/auth">
+              <div>
+                <label for="email"></label>
+                <input
+                  class="signin_email"
+                  type="email"
+                  id="signin_email"
+                  name="email"
+                  placeholder="輸入電子郵件"
+                  required
+                />
+              </div>
+              <div>
+                <label for="password"></label>
+                <input
+                  type="password"
+                  id="signin_password"
+                  name="password"
+                  placeholder="輸入密碼"
+                  required
+                />
+              </div>
+
+              <button type="submit" id="signin_button" style="cursor: pointer">
+                登入帳戶
+              </button>
+              <div class="link_text">
+                <p
+                  id="hide_signin_display_signup"
+                  class="hide_signin_display_signup"
+                  style="cursor: pointer"
+                >
+                  或點此註冊
+                </p>
+              </div>
+            </form>
+          </div>
+
+          <div class="signup_area">
+            <div class="decobar"></div>
+            <h2>註冊帳號</h2>
+            <form
+              id="signup_form"
+              method="post"
+              action="/api/user"
+              autocomplete="off"
+            >
+              <div>
+                <label for="name"></label>
+                <input
+                  class="signup_name"
+                  type="text"
+                  name="name"
+                  id="signup_name"
+                  placeholder="輸入姓名"
+                  required
+                />
+              </div>
+              <div>
+                <label for="email"></label>
+                <input
+                  class="signup_email"
+                  type="email"
+                  name="email"
+                  id="signup_email"
+                  placeholder="輸入電子郵件"
+                  required
+                />
+              </div>
+              <div>
+                <label for="password"></label>
+                <input
+                  class="signup_password"
+                  type="password"
+                  name="password"
+                  id="signup_password"
+                  pattern="[a-zA-Z0-9]{8,}"
+                  autocomplete="new-password"
+                  placeholder="輸入密碼"
+                  required
+                />
+              </div>
+              <div class="regis_submit">
+                <button
+                  type="submit"
+                  id="signup_button"
+                  style="cursor: pointer"
+                >
+                  註冊新帳戶
+                </button>
+              </div>
+              <div class="link_text">
+                <p id="signupAreaMsg"></p>
+                <p
+                  id="hide_signup_display_signin"
+                  class="hide_signup_display_signin"
+                  style="cursor: pointer"
+                >
+                  點此登入
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
