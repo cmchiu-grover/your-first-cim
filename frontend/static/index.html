@@ -2,6 +2,11 @@
 <html lang="zh-Hant">
   <head>
     <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
       rel="preload"
       href="/frontend/static/css/style.css"
       as="style"
@@ -22,7 +27,7 @@
         </div>
 
         <div class="signin_up_area">
-          <div class="signin_area">
+          <div id="signin_area" class="signin_area">
             <div class="decobar"></div>
             <h2>使用者登入</h2>
             <form id="signin_form" method="post" action="/api/user/auth">
@@ -52,84 +57,115 @@
                 登入帳戶
               </button>
               <div class="link_text">
+                <p id="signinAreaMsg">還沒有帳戶？</p>
                 <p
                   id="hide_signin_display_signup"
                   class="hide_signin_display_signup"
                   style="cursor: pointer"
                 >
-                  或點此註冊
-                </p>
-              </div>
-            </form>
-          </div>
-
-          <div class="signup_area">
-            <div class="decobar"></div>
-            <h2>註冊帳號</h2>
-            <form
-              id="signup_form"
-              method="post"
-              action="/api/user"
-              autocomplete="off"
-            >
-              <div>
-                <label for="name"></label>
-                <input
-                  class="signup_name"
-                  type="text"
-                  name="name"
-                  id="signup_name"
-                  placeholder="輸入姓名"
-                  required
-                />
-              </div>
-              <div>
-                <label for="email"></label>
-                <input
-                  class="signup_email"
-                  type="email"
-                  name="email"
-                  id="signup_email"
-                  placeholder="輸入電子郵件"
-                  required
-                />
-              </div>
-              <div>
-                <label for="password"></label>
-                <input
-                  class="signup_password"
-                  type="password"
-                  name="password"
-                  id="signup_password"
-                  pattern="[a-zA-Z0-9]{8,}"
-                  autocomplete="new-password"
-                  placeholder="輸入密碼"
-                  required
-                />
-              </div>
-              <div class="regis_submit">
-                <button
-                  type="submit"
-                  id="signup_button"
-                  style="cursor: pointer"
-                >
-                  註冊新帳戶
-                </button>
-              </div>
-              <div class="link_text">
-                <p id="signupAreaMsg"></p>
-                <p
-                  id="hide_signup_display_signin"
-                  class="hide_signup_display_signin"
-                  style="cursor: pointer"
-                >
-                  點此登入
+                  點此註冊
                 </p>
               </div>
             </form>
           </div>
         </div>
+
+        <dialog id="signup_area" class="signup_area">
+          <div class="decobar"></div>
+          <h2>註冊帳號</h2>
+          <i
+            id="close_dialog_icon"
+            class="material-icons"
+            style="color: #ffffff"
+            autofocus
+            >close</i
+          >
+          <form
+            id="signup_form"
+            method="post"
+            action="/api/user"
+            autocomplete="off"
+          >
+            <div>
+              <label for="account"></label>
+              <input
+                class="signup_account"
+                type="text"
+                name="account"
+                id="signup_account"
+                placeholder="輸入帳號"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <div>
+              <label for="password"></label>
+              <input
+                class="signup_password"
+                type="password"
+                name="password"
+                id="signup_password"
+                pattern="[a-zA-Z0-9]{8,}"
+                autocomplete="new-password"
+                placeholder="輸入密碼"
+                required
+              />
+            </div>
+            <div>
+              <label for="email"></label>
+              <input
+                class="signup_email"
+                type="email"
+                name="email"
+                id="signup_email"
+                placeholder="輸入電子郵件"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <div>
+              <label for="name"></label>
+              <input
+                class="signup_name"
+                type="text"
+                name="name"
+                id="signup_name"
+                placeholder="輸入姓名"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <div>
+              <label for="position"></label>
+              <select name="position" id="signup_position">
+                <option value="" disabled selected hidden>
+                  請選擇一個選項
+                </option>
+                <option value="IE">IE 同仁</option>
+                <option value="MFG">MFG 同仁</option>
+                <option value="EQ">EQ 同仁</option>
+              </select>
+            </div>
+
+            <div class="regis_submit">
+              <button type="submit" id="signup_button" style="cursor: pointer">
+                註冊新帳戶
+              </button>
+            </div>
+            <div class="link_text">
+              <p id="signupAreaMsg"></p>
+              <p
+                id="hide_signup_display_signin"
+                class="hide_signup_display_signin"
+                style="cursor: pointer"
+              >
+                點此登入
+              </p>
+            </div>
+          </form>
+        </dialog>
       </div>
     </main>
+    <script type="module" src="/frontend/static/js/user.js"></script>
   </body>
 </html>
