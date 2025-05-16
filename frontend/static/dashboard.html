@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/frontend/static/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/user">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li>
+              <p id="username" class="username">Hi 使用者</p>
+            </li>
+            <li id="booking_li">
+              <i class="material-icons">notifications</i>
+            </li>
+            <li id="sign_out">
+              <i class="material-icons">list</i>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul class="function_nav_ul">
+            <li class="function_nav_ul_li"><a href="#">OEE</a></li>
+            <div class="detail_area">
+              <a href="#">Total OEE</a>
+              <a href="#">廠區 OEE</a>
+              <a href="#">機型 OEE</a>
+            </div>
+            <li class="function_nav_ul_li"><a href="#">機況圖</a></li>
+            <li class="function_nav_ul_li"><a href="#">IE 維護</a></li>
+            <li class="function_nav_ul_li"><a href="#">MFG 維護</a></li>
+            <li class="function_nav_ul_li"><a href="#">EQ 維護</a></li>
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <h1 class="function_title">Dashboard Page</h1>
+
+            <p class="welcome_text">
+              歡迎回來，<strong id="dashboard_username">使用者名稱</strong
+              >！這是您的 CIM Dashboard Page。
+            </p>
+
+            <!-- 概覽區塊 -->
+            <div class="dashboard_summary">
+              <div class="summary_card">
+                <h2>本日產線稼動率</h2>
+                <p id="availability_rate">92%</p>
+              </div>
+              <div class="summary_card">
+                <h2>今日良品率</h2>
+                <p id="quality_rate">98.5%</p>
+              </div>
+              <div class="summary_card">
+                <h2>設備異常數</h2>
+                <p id="error_count">3 台</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Footer</p>
+      </footer>
+    </main>
+  </body>
+</html>
