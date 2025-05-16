@@ -65,32 +65,37 @@ body main.index_page .index_background .welcome h2 {
   text-align: center;
   margin-bottom: 10px;
 }
-body main.index_page .index_background .signin_up_area {
-  width: 380px;
-  height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #252728;
-}
-body main.index_page .index_background .signin_up_area .signup_area {
-  width: 340px;
-  height: 332px;
-  display: flex;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  position: absolute;
-  z-index: -1;
-}
-body main.index_page .index_background .signin_up_area .signin_area {
+body main.index_page .index_background .signin_area {
   width: 340px;
   height: 275px;
   display: flex;
-  position: relative;
 }
-body main.index_page .index_background .signin_up_area .signup_area,
-body main.index_page .index_background .signin_up_area .signin_area {
+body main.index_page .index_background dialog.signup_area {
+  width: 340px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  background-color: #252728;
+  overflow: visible;
+  left: calc(50% - 170px);
+  top: 15vh;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: -1;
+}
+body main.index_page .index_background dialog.signup_area::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+}
+body main.index_page .index_background dialog.signup_area i#close_dialog_icon {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  cursor: pointer;
+}
+body main.index_page .index_background .signin_area,
+body main.index_page .index_background dialog.signup_area {
   border-radius: 5px 5px 5px 5px;
   border: 0;
   overflow: visible;
@@ -102,16 +107,16 @@ body main.index_page .index_background .signin_up_area .signin_area {
   box-shadow: 0px 0px 10px 0px #aaaaaa;
   overflow: visible;
 }
-body main.index_page .index_background .signin_up_area .signup_area div.decobar,
-body main.index_page .index_background .signin_up_area .signin_area div.decobar {
+body main.index_page .index_background .signin_area div.decobar,
+body main.index_page .index_background dialog.signup_area div.decobar {
   border-radius: 5px 5px 0 0;
   flex-shrink: 0;
   background-color: #f99a1e;
   width: 100%;
   height: 10px;
 }
-body main.index_page .index_background .signin_up_area .signup_area h2,
-body main.index_page .index_background .signin_up_area .signin_area h2 {
+body main.index_page .index_background .signin_area h2,
+body main.index_page .index_background dialog.signup_area h2 {
   height: 27px;
   margin-top: 10px;
   font-size: 24px;
@@ -120,41 +125,51 @@ body main.index_page .index_background .signin_up_area .signin_area h2 {
   text-align: center;
   line-height: 27px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form,
-body main.index_page .index_background .signin_up_area .signin_area form {
+body main.index_page .index_background .signin_area form,
+body main.index_page .index_background dialog.signup_area form {
   margin: 15px 15px 0px 15px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div,
-body main.index_page .index_background .signin_up_area .signin_area form div {
+body main.index_page .index_background .signin_area form div,
+body main.index_page .index_background dialog.signup_area form div {
   height: 47px;
   margin-bottom: 10px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div input,
-body main.index_page .index_background .signin_up_area .signin_area form div input {
+body main.index_page .index_background .signin_area form div input,
+body main.index_page .index_background .signin_area form div select#signup_position,
+body main.index_page .index_background dialog.signup_area form div input,
+body main.index_page .index_background dialog.signup_area form div select#signup_position {
   height: 47px;
   width: 310px;
   border-radius: 5px 5px 5px 5px;
   border: solid 1px #cccccc;
   padding: 16.5px 15px 16.5px 15px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div input::-moz-placeholder, body main.index_page .index_background .signin_up_area .signin_area form div input::-moz-placeholder {
+body main.index_page .index_background .signin_area form div input::-moz-placeholder, body main.index_page .index_background .signin_area form div select#signup_position::-moz-placeholder, body main.index_page .index_background dialog.signup_area form div input::-moz-placeholder, body main.index_page .index_background dialog.signup_area form div select#signup_position::-moz-placeholder {
   color: #757575;
   font-weight: 500;
   font-size: 16px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div input::placeholder,
-body main.index_page .index_background .signin_up_area .signin_area form div input::placeholder {
+body main.index_page .index_background .signin_area form div input::placeholder,
+body main.index_page .index_background .signin_area form div select#signup_position::placeholder,
+body main.index_page .index_background dialog.signup_area form div input::placeholder,
+body main.index_page .index_background dialog.signup_area form div select#signup_position::placeholder {
   color: #757575;
   font-weight: 500;
   font-size: 16px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div.regis_submit,
-body main.index_page .index_background .signin_up_area .signin_area form div.regis_submit {
+body main.index_page .index_background .signin_area form div select#signup_position option,
+body main.index_page .index_background dialog.signup_area form div select#signup_position option {
+  color: #757575;
+  font-weight: 500;
+  font-size: 16px;
+}
+body main.index_page .index_background .signin_area form div.regis_submit,
+body main.index_page .index_background dialog.signup_area form div.regis_submit {
   width: 310px;
   height: 46px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div.regis_submit button,
-body main.index_page .index_background .signin_up_area .signin_area form div.regis_submit button {
+body main.index_page .index_background .signin_area form div.regis_submit button,
+body main.index_page .index_background dialog.signup_area form div.regis_submit button {
   width: 100%;
   height: 100%;
   background-color: #f99a1e;
@@ -164,8 +179,8 @@ body main.index_page .index_background .signin_up_area .signin_area form div.reg
   border: 0;
   border-radius: 5px 5px 5px 5px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form button#signin_button,
-body main.index_page .index_background .signin_up_area .signin_area form button#signin_button {
+body main.index_page .index_background .signin_area form button#signin_button,
+body main.index_page .index_background dialog.signup_area form button#signin_button {
   width: 310px;
   height: 46px;
   background-color: #f99a1e;
@@ -176,20 +191,20 @@ body main.index_page .index_background .signin_up_area .signin_area form button#
   border-radius: 5px 5px 5px 5px;
   margin-bottom: 10px;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div.link_text,
-body main.index_page .index_background .signin_up_area .signin_area form div.link_text {
+body main.index_page .index_background .signin_area form div.link_text,
+body main.index_page .index_background dialog.signup_area form div.link_text {
   height: 22px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-body main.index_page .index_background .signin_up_area .signup_area form div.link_text p,
-body main.index_page .index_background .signin_up_area .signin_area form div.link_text p {
+body main.index_page .index_background .signin_area form div.link_text p,
+body main.index_page .index_background dialog.signup_area form div.link_text p {
   color: #e4e6ea;
   font-weight: 500;
 }
-body main.index_page .index_background .signin_up_area .signup_area[open],
-body main.index_page .index_background .signin_up_area .signin_area[open] {
+body main.index_page .index_background .signin_area[open],
+body main.index_page .index_background dialog.signup_area[open] {
   opacity: 1;
   z-index: 2;
 }
