@@ -23,6 +23,38 @@ TABLES['img_text_posts'] = (
     "  PRIMARY KEY (`id`)"
     ") ENGINE=InnoDB")
 
+TABLES['users'] = (
+    "CREATE TABLE `users` ("
+    "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  `account`  VARCHAR(255) NOT NULL,"
+    "  `password` VARCHAR(255) NOT NULL,"
+    "  `name` VARCHAR(255) NOT NULL,"
+    "  `position` VARCHAR(255) NOT NULL,"
+    "  `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+    "  `updated_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,"
+    "  PRIMARY KEY (`id`), "
+    "  UNIQUE KEY `unique_account` (`account`),"
+    "  INDEX `index_position` (`position`),"
+    "  INDEX `index_account_position` (`account`, `position`)"
+    ") ENGINE=InnoDB")
+
+TABLES['eqp_status_test'] = (
+    "CREATE TABLE `eqp_status_test` ("
+    "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  `eq_id` VARCHAR(16) NOT NULL,"
+    "  `work_date` datetime NOT NULL,"
+    "  `start_time` datetime NOT NULL,"
+    "  `end_time` datetime NOT NULL,"
+    "  `hour_time` DECIMAL(10,6) NOT NULL,"
+    "  `status` VARCHAR(16) NOT NULL,"
+    "  PRIMARY KEY (`id`), "
+    "  INDEX `index_work_date` (`work_date`),"
+    "  INDEX `index_start_time` (`start_time`),"
+    "  INDEX `index_eqid_date` (`eq_id`, `work_date`),"
+    "  INDEX `index_eqid_starttime` (`eq_id`, `start_time`),"
+    "  INDEX `index_status` (`status`)"
+    ") ENGINE=InnoDB")
+
 def check_database():
     try:
         temp_cnx = mysql.connector.connect(
