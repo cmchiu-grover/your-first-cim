@@ -32,13 +32,12 @@
             <h2>使用者登入</h2>
             <form id="signin_form" method="post" action="/api/user/auth">
               <div>
-                <label for="email"></label>
                 <input
-                  class="signin_email"
-                  type="email"
-                  id="signin_email"
-                  name="email"
-                  placeholder="輸入電子郵件"
+                  class="signin_account"
+                  type="text"
+                  id="signin_account"
+                  name="signin_account"
+                  placeholder="輸入帳號"
                   required
                 />
               </div>
@@ -87,11 +86,10 @@
             autocomplete="off"
           >
             <div>
-              <label for="account"></label>
               <input
                 class="signup_account"
                 type="text"
-                name="account"
+                name="signup_account"
                 id="signup_account"
                 placeholder="輸入帳號"
                 required
@@ -111,18 +109,7 @@
                 required
               />
             </div>
-            <div>
-              <label for="email"></label>
-              <input
-                class="signup_email"
-                type="email"
-                name="email"
-                id="signup_email"
-                placeholder="輸入電子郵件"
-                required
-                autocomplete="off"
-              />
-            </div>
+
             <div>
               <label for="name"></label>
               <input
