@@ -4,3 +4,7 @@ __pycache__/
 style.css.map
 style.scss
 test.py
+test/
+frontend/cimapp/
+cdn.css
+w3.css
