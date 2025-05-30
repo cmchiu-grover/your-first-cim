@@ -1,4 +1,5 @@
 from backend.app.db.connect import get_connection_pool
+from fastapi import Request, HTTPException, status
 import mysql.connector
 from dotenv import load_dotenv
 import os
@@ -7,6 +8,8 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 from fastapi import Request
 from datetime import datetime
+from sqlalchemy import text
+from pydantic import BaseModel
 
 load_dotenv()
 
@@ -68,7 +71,7 @@ def check_user(new_account):
             return None
 
     except Exception as e:
-        print(f"錯誤: {e}")
+        print(f"check_user 錯誤: {e}")
         return None
     
     finally:
@@ -105,14 +108,11 @@ def query_user_data(user_id):
         except:
             pass
 
-
 def get_password_hash(password):
     return pwd_context.hash(password)
 
-
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
-
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -124,13 +124,26 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return token
 
-
 async def get_current_user(request: Request):
 
     try:
         auth_header = request.headers.get("Authorization")
+        print(f"get_current_user: auth_header = {auth_header}")
+            
+        if auth_header is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Authorization header is missing",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
         if not auth_header.startswith("Bearer "):
-            return None
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Authorization header invalid (expected Bearer token)",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
         
         token = auth_header.split("Bearer ")[1]
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])  
@@ -142,9 +155,145 @@ async def get_current_user(request: Request):
         user = check_user(account)  
         return user
     except Exception as e:
-        print(e)
+        print(f"get_current_user 發生錯誤：{e}")
         return False
 
 async def get_current_active_user(request: Request):
     return await get_current_user(request)
 
+class StandardTimeUpdate(BaseModel):
+    prod_code: str
+    eqp_type: str
+    station_name: str
+    stdt: float
+
+def update_standard_time_value(item):
+    try:
+        cnx = get_connection_pool()
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute(
+                    """
+                    SELECT st.id
+                    FROM standard_times st
+                    JOIN prod_info p ON p.prod_code = %s AND p.id = st.prod_id
+                    JOIN eqp_types e ON e.eqp_type = %s AND e.id = st.eqp_type_id
+                    JOIN station_info s ON s.station_name = %s AND s.id = st.station_id
+                    """,
+                    (item.prod_code, item.eqp_type, item.station_name)
+                )
+        result = cursor.fetchone()
+        print(f"查詢欲更新的資料的結果: {result}")
+        if not result:
+            print(f"找不到符合條件的資料: {item.prod_code}, {item.eqp_type}, {item.station_name}")
+            return False
+
+        standard_time_id = result["id"]
+        cursor.execute(
+            "UPDATE standard_times SET standard_time_value = %s WHERE id = %s",
+            (item.stdt, standard_time_id)
+        )
+        cnx.commit()
+        print(f"成功更新標準時間: {item.prod_code}, {item.eqp_type}, {item.station_name} 為 {item.stdt}")
+
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        cnx.rollback()
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+            return True
+        except Exception as e:
+            print(f"Error closing connection: {e}")
+            pass
+
+def decode_jwt_token(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        print("Token 已過期")
+        return None
+    except jwt.InvalidTokenError:
+        print("無效的 Token")
+        return None
+    except Exception as e:
+        print(f"解碼 Token 時發生錯誤: {e}")
+        return None
+       
+def create_notification_and_assign_users(notification, user_ids):
+    query_notif = """
+        INSERT INTO notifications (title, message, event_type)
+        VALUES (%s, %s, %s)
+    """
+    query_assign = """
+        INSERT INTO user_notifications (user_id, notification_id)
+        VALUES (%s, %s)
+    """
+    try:
+        cxn = get_connection_pool()
+        cursor = cxn.cursor()
+        cursor.execute(query_notif, (notification.title, notification.message, notification.event_type))
+        notif_id = cursor.lastrowid
+
+        for user_id in user_ids:
+            cursor.execute(query_assign, (user_id, notif_id))
+        cxn.commit()
+
+        return notif_id
+    except mysql.connector.Error as err:
+        print(f"create_notification_and_assign_users() Error: {err}")
+        cxn.rollback()
+    
+    except Exception as e:
+        print(f"create_notification_and_assign_users() Unexpected error: {e}")
+        cxn.rollback()
+    finally:
+        try:
+            cursor.close()
+            cxn.close()
+        except Exception as e:
+            print(f"create_notification_and_assign_users Error closing connection: {e}")
+            pass
+
+def get_unread_notification_status(user_id):
+    query = """
+        SELECT COUNT(*) FROM user_notifications
+        WHERE user_id = %s AND is_read = FALSE
+    """
+    try:
+        cxn = get_connection_pool()
+        cursor = cxn.cursor()
+        cursor.execute(query, (user_id,))
+        count = cursor.fetchone()[0]
+    except mysql.connector.Error as err:
+        print(f"get_unread_notification_status() Error: {err}")
+        count = 0
+    except Exception as e:
+        print(f"get_unread_notification_status() Unexpected error: {e}")
+        count = 0
+    finally:
+        cursor.close()
+        cxn.close()
+        return count > 0
+
+def mark_all_notifications_read(user_id):
+    query = """
+        UPDATE user_notifications SET is_read = TRUE
+        WHERE user_id = %s AND is_read = FALSE
+    """
+    try:
+        cxn = get_connection_pool()
+        cursor = cxn.cursor()
+        cursor.execute(query, (user_id,))
+        cxn.commit()
+    except mysql.connector.Error as err:
+        print(f"mark_all_notifications_read() Error: {err}")
+        cxn.rollback()
+    except Exception as e:
+        print(f"mark_all_notifications_read() Unexpected error: {e}")
+        cxn.rollback()
+    finally:
+        cursor.close()
+        cxn.close()
