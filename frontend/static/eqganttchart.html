@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/frontend/static/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/dashboard">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li>
+              <p id="username" class="username"></p>
+            </li>
+            <li id="notifications-li">
+              <i id="notifications" class="material-icons">notifications</i>
+              <span
+                id="updateDot"
+                style="
+                  display: none;
+                  background: red;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  margin-left: 5px;
+                "
+              ></span>
+            </li>
+            <li id="sign_out">
+              <i class="material-icons">list</i>
+            </li>
+            <li class="li_signout_button">
+              <p id="signout_button">登出</p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul id="function_nav_ul" class="function_nav_ul">
+            <li class="function_nav_ul_li"><a href="#">OEE</a></li>
+            <div class="detail_area">
+              <a href="#">Total OEE</a>
+              <a href="#">廠區 OEE</a>
+              <a href="#">機型 OEE</a>
+            </div>
+            <li
+              class="function_nav_ul_li eq_gantt_chart"
+              style="background-color: #ccc"
+            >
+              <a href="#" style="color: #000">機況圖</a>
+            </li>
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <h1 class="function_title">機況圖</h1>
+            <hr />
+            <figure id="eq_gantt_chart_fig">
+              <img id="eq_gantt_chart_img" src="" alt="甘特圖載入中..." />
+            </figure>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Your First CIM App</p>
+      </footer>
+    </main>
+    <script type="module" src="/frontend/static/js/gantt.js"></script>
+  </body>
+</html>

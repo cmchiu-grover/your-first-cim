@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/frontend/static/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/dashboard">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li class="li_username">
+              <p id="username" class="p_username"></p>
+            </li>
+            <li id="notifications-li">
+              <i id="notifications" class="material-icons">notifications</i>
+              <span
+                id="updateDot"
+                style="
+                  display: none;
+                  background: red;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  margin-left: 5px;
+                "
+              ></span>
+            </li>
+
+            <li id="list_button">
+              <i class="material-icons">list</i>
+            </li>
+            <li class="li_signout_button">
+              <p id="signout_button">登出</p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul id="function_nav_ul" class="function_nav_ul">
+            <li class="function_nav_ul_li"><a href="#">OEE</a></li>
+            <div class="detail_area">
+              <a href="#">Total OEE</a>
+              <a href="#">廠區 OEE</a>
+              <a href="#">機型 OEE</a>
+            </div>
+            <li class="function_nav_ul_li">
+              <a href="/eqganttchart">機況圖</a>
+            </li>
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <h1 class="function_title">IE 維護</h1>
+            <hr />
+            <div class="ie-maintain-update-button-container">
+              <h2 class="ie-maintain-update-h2">
+                使用 csv 檔案上傳 IE 維護資料
+              </h2>
+              <button
+                type="submit"
+                class="update_csv_file_btn"
+                id="update_csv_file_btn"
+              >
+                送出檔案
+              </button>
+            </div>
+            <form id="csvFileForm" class="csvFileForm">
+              <input
+                class="update_csv_file_input"
+                type="file"
+                name="file"
+                accept=".csv"
+                required
+              />
+            </form>
+
+            <hr />
+
+            <div class="ie-maintain-update-button-container">
+              <h2 class="ie-maintain-update-h2">快速維護表格</h2>
+              <button
+                type="submit"
+                class="update_stdt_btn"
+                id="update_stdt_btn"
+                style="cursor: pointer"
+              >
+                更新工時
+              </button>
+            </div>
+            <form
+              class="ie_maintain_form"
+              id="ie_maintain_form"
+              method="put"
+              action="/api/user"
+              autocomplete="off"
+            >
+              <div class="ie_maintain_itemname">
+                <h3>prod_code</h3>
+                <h3>eqp_type</h3>
+                <h3>station_name</h3>
+                <h3>STDT</h3>
+              </div>
+              <!-- 空白 input -->
+              <div class="ie_update_div">
+                <!-- <label for="pdid">PDID</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="prod_code"
+                  id="ie_maintain_pdid"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="eqp_type"
+                  id="ie_maintain_eqtype"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="station_name"
+                  id="ie_maintain_station_name"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="stdt">STDT</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="stdt"
+                  id="ie_maintain_stdt"
+                  required
+                  autocomplete="off"
+                />
+              </div>
+              <!-- 空白 input -->
+              <div class="ie_update_div">
+                <!-- <label for="pdid">PDID</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="prod_code"
+                  id="ie_maintain_pdid"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="eqp_type"
+                  id="ie_maintain_eqtype"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="station_name"
+                  id="ie_maintain_station_name"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="stdt">STDT</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="stdt"
+                  id="ie_maintain_stdt"
+                  required
+                  autocomplete="off"
+                />
+              </div>
+              <!-- 空白 input -->
+              <div class="ie_update_div">
+                <!-- <label for="pdid">PDID</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="prod_code"
+                  id="ie_maintain_pdid"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="eqp_type"
+                  id="ie_maintain_eqtype"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="station_name"
+                  id="ie_maintain_station_name"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="stdt">STDT</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="stdt"
+                  id="ie_maintain_stdt"
+                  required
+                  autocomplete="off"
+                />
+              </div>
+              <!-- 空白 input -->
+              <div class="ie_update_div">
+                <!-- <label for="pdid">PDID</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="prod_code"
+                  id="ie_maintain_pdid"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="eqp_type"
+                  id="ie_maintain_eqtype"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="station_name"
+                  id="ie_maintain_station_name"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="stdt">STDT</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="stdt"
+                  id="ie_maintain_stdt"
+                  required
+                  autocomplete="off"
+                />
+              </div>
+              <!-- 空白 input -->
+              <div class="ie_update_div">
+                <!-- <label for="pdid">PDID</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="prod_code"
+                  id="ie_maintain_pdid"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="eqp_type"
+                  id="ie_maintain_eqtype"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="eqtype">EQTYPE</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="station_name"
+                  id="ie_maintain_station_name"
+                  required
+                  autocomplete="off"
+                />
+                <!-- <label for="stdt">STDT</label> -->
+                <input
+                  class="ie_maintain_input"
+                  type="text"
+                  name="stdt"
+                  id="ie_maintain_stdt"
+                  required
+                  autocomplete="off"
+                />
+              </div>
+            </form>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Your First CIM App</p>
+      </footer>
+    </main>
+    <script type="module" src="/frontend/static/js/maintain.js"></script>
+    <script src="/frontend/static/js/uploadcsv.js"></script>
+    <script src="/frontend/static/js/notification.js"></script>
+    <script>
+      NotificationHandler.init({ withSSE: true });
+    </script>
+  </body>
+</html>

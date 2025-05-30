@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/frontend/static/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/dashboard">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li class="li_username">
+              <p id="username" class="p_username"></p>
+            </li>
+            <li id="notifications-li">
+              <i id="notifications" class="material-icons">notifications</i>
+              <span
+                id="updateDot"
+                style="
+                  display: none;
+                  background: red;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  margin-left: 5px;
+                "
+              ></span>
+            </li>
+            <li id="list_button">
+              <i class="material-icons">list</i>
+            </li>
+            <li class="li_signout_button">
+              <p id="signout_button">登出</p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul id="function_nav_ul" class="function_nav_ul">
+            <li class="function_nav_ul_li"><a href="#">OEE</a></li>
+            <div class="detail_area">
+              <a href="#">Total OEE</a>
+              <a href="#">廠區 OEE</a>
+              <a href="#">機型 OEE</a>
+            </div>
+            <li class="function_nav_ul_li">
+              <a href="eqganttchart">機況圖</a>
+            </li>
+            <!-- <li class="function_nav_ul_li">
+              <a href="/iemaintain">IE 維護</a>
+            </li>
+            <li class="function_nav_ul_li"><a href="#">MFG 維護</a></li>
+            <li class="function_nav_ul_li"><a href="#">EQ 維護</a></li> -->
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <h1 class="function_title">通知攔</h1>
+
+            <p class="welcome_text">歡迎回來，這是您的通知攔。</p>
+
+            <hr style="margin-top: 20px" />
+            <div class="notification_area">
+              <ul class="notification_list">
+                <li class="notification_list_item">
+                  <p class="notification_list_item_id">編號</p>
+                  <p class="notification_list_item_msg">內容</p>
+                  <p class="notification_list_item_ct">時間</p>
+                </li>
+                <!-- Notifications will be dynamically inserted here -->
+              </ul>
+              <ul id="notification_list" class="notification_list">
+                <!-- Notifications will be dynamically inserted here -->
+              </ul>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Your First CIM App</p>
+      </footer>
+    </main>
+    <script type="module" src="/frontend/static/js/dashboard.js"></script>
+    <script src="/frontend/static/js/notification.js"></script>
+    <script>
+      NotificationHandler.init({ withSSE: true });
+    </script>
+  </body>
+</html>

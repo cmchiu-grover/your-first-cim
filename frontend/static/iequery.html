@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/frontend/static/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/dashboard">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li class="li_username">
+              <p id="username" class="p_username"></p>
+            </li>
+            <li id="notifications-li">
+              <i id="notifications" class="material-icons">notifications</i>
+              <span
+                id="updateDot"
+                style="
+                  display: none;
+                  background: red;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  margin-left: 5px;
+                "
+              ></span>
+            </li>
+            <li id="sign_out">
+              <i class="material-icons">list</i>
+            </li>
+            <li class="li_signout_button">
+              <p id="signout_button">登出</p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul id="function_nav_ul" class="function_nav_ul">
+            <li class="function_nav_ul_li"><a href="#">OEE</a></li>
+            <div class="detail_area">
+              <a href="#">Total OEE</a>
+              <a href="#">廠區 OEE</a>
+              <a href="#">機型 OEE</a>
+            </div>
+            <li class="function_nav_ul_li">
+              <a href="/eqganttchart">機況圖</a>
+            </li>
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <h1 class="function_title">IE 工時查詢</h1>
+            <hr />
+
+            <form id="ie-query-form" class="ie-query-form">
+              <div class="ie-query-form-input-parent">
+                <div class="div1 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="prod_code"
+                    >prod_code</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="prod_code"
+                    placeholder="請輸入產品代碼"
+                  />
+                </div>
+                <div class="div2 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="prod_name"
+                    >prod_name</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="prod_name"
+                    placeholder="請輸入產品名稱"
+                  />
+                </div>
+                <div class="div3 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="eqp_type"
+                    >eqp_type</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="eqp_type"
+                    placeholder="請輸入設備類型"
+                  />
+                </div>
+                <div class="div4 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="station_name"
+                    >station_name</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="station_name"
+                    placeholder="請輸入站點名稱"
+                  />
+                </div>
+                <div class="div5 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="module_name"
+                    >module_name</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="module_name"
+                    placeholder="請輸入站點之 module"
+                  />
+                </div>
+                <div class="div6 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="creation_time"
+                    >creation_time</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="creation_time"
+                    placeholder="12碼，例：202501011200"
+                  />
+                </div>
+                <div class="div7">
+                  <button
+                    type="submit"
+                    class="ie-query-stdt-button"
+                    id="ie-query-stdt-button"
+                  >
+                    查詢
+                  </button>
+                  <button type="button" id="downloadCsvButton">下載結果</button>
+                </div>
+              </div>
+            </form>
+            <div id="ie-query-result-pagenumber">
+              <!-- 這邊放搜尋結果的頁碼 -->
+            </div>
+            <div id="ie-query-result-area">
+              <!-- 這邊放搜尋結果，一頁呈現10筆 -->
+
+              <form
+                class="ie-query-result-form"
+                id="ie-query-result-form"
+                method="put"
+                autocomplete="off"
+              >
+                <div class="ie_query_maintain_items_div">
+                  <div class="ie_query_maintain_items_div_1"></div>
+                  <h3>id</h3>
+                  <h3>prod_code</h3>
+                  <h3>prod_name</h3>
+                  <h3>eqp_type</h3>
+                  <h3>module_name</h3>
+                  <h3>station_name</h3>
+                  <h3>STDT(min)</h3>
+                  <h3>updated_time</h3>
+                  <h3>description</h3>
+                </div>
+              </form>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Your First CIM App</p>
+      </footer>
+    </main>
+    <script type="module" src="/frontend/static/js/iequery.js"></script>
+  </body>
+</html>
