@@ -500,14 +500,6 @@ body main section article .article_area form.ie_maintain_form .ie_update_div #up
   color: #f99a1e;
   background-color: #1c1c1d;
 }
-body main section article .article_area #eq_gantt_chart_fig {
-  margin-top: 20px;
-}
-body main section article .article_area #eq_gantt_chart_fig #eq_gantt_chart_img {
-  max-width: 1200px;
-  width: 100%;
-  height: auto;
-}
 body main section article .article_area form.ie-query-form {
   margin: 20px 0 20px 0;
 }
@@ -572,7 +564,63 @@ body main section article .article_area form.ie-query-form .ie-query-form-input-
   border-radius: 0 5px 5px 0;
   border: solid 1px #747474;
 }
-body main section article .article_area #ie-query-result-pagenumber {
+body main section article .article_area form.gantt-query-form {
+  margin: 20px 0 20px 0;
+}
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 15px;
+}
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 {
+  grid-column: span 2/span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 button {
+  font-size: 20px;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  height: 36px;
+  width: 125px;
+  color: #f99a1e;
+  background-color: #1c1c1d;
+  cursor: pointer;
+}
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 #downloadCsvButton {
+  cursor: not-allowed;
+  color: #999;
+  background-color: #f2f2f2;
+}
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div label.ie-query-form-label {
+  height: 100%;
+  flex: 0;
+  color: #1c1c1d;
+  background-color: #f99a1e;
+  font-size: 16px;
+  padding: 5px 5px 0 5px;
+  border: solid 1px #747474;
+  border-radius: 5px 0 0 5px;
+}
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div input.update-ie-stdt-input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 5px 5px 0;
+  border: solid 1px #747474;
+}
+body main section article .article_area #ie-query-result-pagenumber,
+body main section article .article_area #gantt_charts-result-pagenumber {
   width: 100%;
   height: 70px;
   display: flex;
@@ -580,19 +628,22 @@ body main section article .article_area #ie-query-result-pagenumber {
   justify-content: center;
   align-items: center;
 }
-body main section article .article_area #ie-query-result-pagenumber .pagination-nav button {
+body main section article .article_area #ie-query-result-pagenumber .pagination-nav button,
+body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button {
   padding: 6px 10px;
   border: 1px solid #ccc;
   background-color: white;
   cursor: pointer;
   border-radius: 4px;
 }
-body main section article .article_area #ie-query-result-pagenumber .pagination-nav button.active {
+body main section article .article_area #ie-query-result-pagenumber .pagination-nav button.active,
+body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button.active {
   background-color: #f99a1e;
   color: white;
   font-weight: bold;
 }
-body main section article .article_area #ie-query-result-pagenumber .pagination-nav button:disabled {
+body main section article .article_area #ie-query-result-pagenumber .pagination-nav button:disabled,
+body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button:disabled {
   background-color: #f2f2f2;
   color: #999;
   cursor: not-allowed;
@@ -684,6 +735,26 @@ body main section article .article_area .notification_area ul.notification_list 
 }
 body main section article .article_area .notification_area ul.notification_list li.notification_list_item {
   border-bottom: 1px solid #ccc;
+}
+body main section article .article_area #eq_gantt_chart_fig {
+  margin-top: 20px;
+  min-height: 200px;
+  max-height: 400px;
+  background-color: #1c1c1d;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  border: 1px solid #ddd;
+  overflow-y: scroll;
+}
+body main section article .article_area #eq_gantt_chart_fig #eq_gantt_chart_img {
+  max-width: 1200px;
+  width: 100%;
+}
+body main section article .article_area #eq_gantt_chart_fig #loading_message {
+  padding-top: 30px;
+  font-size: 24px;
+  color: #f99a1e;
 }
 body main section:after {
   content: "";
