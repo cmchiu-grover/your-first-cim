@@ -8,7 +8,7 @@
 
     <link
       rel="preload"
-      href="/frontend/static/css/style.css"
+      href="/css/style.css"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
@@ -24,8 +24,8 @@
         <a class="web_title" href="/dashboard">Your First CIM</a>
         <nav class="header_nav">
           <ul>
-            <li>
-              <p id="username" class="username"></p>
+            <li class="li_username">
+              <p id="username" class="p_username"></p>
             </li>
             <li id="notifications-li">
               <i id="notifications" class="material-icons">notifications</i>
@@ -41,7 +41,7 @@
                 "
               ></span>
             </li>
-            <li id="sign_out">
+            <li id="list_button">
               <i class="material-icons">list</i>
             </li>
             <li class="li_signout_button">
@@ -72,10 +72,79 @@
 
         <article>
           <div class="article_area">
-            <h1 class="function_title">機況圖</h1>
-            <hr />
+            <!-- <h1 class="function_title">機況圖</h1>
+            <hr /> -->
+            <form id="gantt-chart-query-form" class="gantt-query-form">
+              <div class="ie-query-form-input-parent">
+                <div class="div3 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="eqp_type"
+                    >eqp_type</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="eqp_type"
+                    placeholder="請輸入設備類型"
+                  />
+                </div>
+                <div class="div4 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="station_name"
+                    >station_name</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="station_name"
+                    placeholder="請輸入站點名稱"
+                  />
+                </div>
+                <div class="div5 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="module_name"
+                    >module_name</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="module_name"
+                    placeholder="請輸入站點之 module"
+                  />
+                </div>
+                <div class="div6 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="work_date"
+                    >work_date</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="text"
+                    name="work_date"
+                    placeholder="8碼，例：20250101"
+                  />
+                </div>
+                <div class="div7">
+                  <button
+                    type="submit"
+                    class="ie-query-stdt-button"
+                    id="ie-query-stdt-button"
+                  >
+                    查詢
+                  </button>
+                  <button type="button" id="downloadCsvButton">下載結果</button>
+                </div>
+              </div>
+            </form>
+
+            <div id="gantt_charts-result-pagenumber" class="">
+              <!-- 這邊放搜尋結果的頁碼 -->
+            </div>
+
             <figure id="eq_gantt_chart_fig">
-              <img id="eq_gantt_chart_img" src="" alt="甘特圖載入中..." />
+              <span id="loading_message">甘特圖載入中...</span>
+              <img
+                id="eq_gantt_chart_img"
+                src=""
+                alt="甘特圖載入中..."
+                style="display: none"
+              />
             </figure>
           </div>
         </article>
@@ -85,6 +154,10 @@
         <p>Your First CIM App</p>
       </footer>
     </main>
-    <script type="module" src="/frontend/static/js/gantt.js"></script>
+    <script type="module" src="/js/gantt.js"></script>
+    <script src="/js/notification.js"></script>
+    <script>
+      NotificationHandler.init({ withSSE: true });
+    </script>
   </body>
 </html>
