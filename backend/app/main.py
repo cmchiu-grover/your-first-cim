@@ -14,7 +14,7 @@ import redis.asyncio as redis
 
 app = FastAPI()
 
-app.mount("/frontend/static", StaticFiles(directory="frontend/static"), name="static")
+# app.mount("/frontend/static", StaticFiles(directory="frontend/static"), name="static")
 
 app.include_router(eqganttchart_router)
 app.include_router(user_router)
