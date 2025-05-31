@@ -8,3 +8,12 @@ test/
 frontend/cimapp/
 cdn.css
 w3.css
+main_backup.py
+maintain_backup.py
+redis_utils.py
+temp.html
+template.html
+plot_25_05_30.py
+plot.ipynb
+docker-compose-local.yml
+nginx_local.conf
