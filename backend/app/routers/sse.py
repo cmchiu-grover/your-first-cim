@@ -4,9 +4,13 @@ from backend.app.db.crud import get_current_active_user
 from backend.app.db.dbquery import check_unread_notifications
 import asyncio
 import redis.asyncio as redis
+import os
 
 router = APIRouter()
-r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+REDIS_HOST = os.getenv("REDIS_HOST", "redis") 
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379)) 
+
+r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
 @router.get("/sse/standard_time")
 async def sse_standard_time(request: Request):
