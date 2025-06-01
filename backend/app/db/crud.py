@@ -297,3 +297,45 @@ def mark_all_notifications_read(user_id):
     finally:
         cursor.close()
         cxn.close()
+
+
+def insert_gantt_chart_data(station_name: str, work_date: str, image_url: str):
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)
+
+        query_sql = """
+            SELECT id, station_name FROM station_info
+            WHERE station_name = %s
+            """
+        
+        cursor.execute(query_sql, (station_name,))
+        station_id = cursor.fetchone()
+        print(station_id)
+        
+        insert_query = """
+            INSERT INTO `gantt_charts`
+            (
+                `station_id`,
+                `work_date`,
+                `image_url`
+                )
+                VALUES (%s, %s, %s)
+            """
+        cursor.execute(insert_query, (station_id.get("id"), work_date, image_url))
+        cnx.commit()
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+
+
+
+

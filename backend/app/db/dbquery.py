@@ -353,3 +353,31 @@ def get_one_user_notifications(user_id):
     finally:
         cursor.close()
         cxn.close()   
+
+def get_gantt_chart_data(station_name, work_date):
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)  
+
+        select_query = """
+            SELECT gc.*, si.station_name FROM `gantt_charts` gc 
+            LEFT JOIN `station_info` si
+            ON gc.station_id = si.id
+            WHERE si.station_name = %s
+            AND gc.work_date = %s
+            """
+        cursor.execute(select_query, (station_name, work_date))
+        gantt_chart_data = cursor.fetchone()
+
+        return gantt_chart_data
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass

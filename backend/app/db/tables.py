@@ -208,6 +208,18 @@ TABLES['user_notifications'] = (
     "  FOREIGN KEY (notification_id) REFERENCES notifications(id)"
     ") ENGINE=InnoDB")
 
+TABLES['gantt_charts'] = (
+    "CREATE TABLE `gantt_charts` ("
+    "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  station_id INT NOT NULL,"
+    "  work_date DATE NOT NULL,"
+    "  image_url VARCHAR(255) NOT NULL,"
+    "  `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+    "  UNIQUE (station_id, work_date),"
+    "  PRIMARY KEY (`id`),"
+    "  FOREIGN KEY (`station_id`) REFERENCES `station_info`(`id`)"
+    ") ENGINE=InnoDB")
+
 
 def check_database():
     try:
