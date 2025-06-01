@@ -59,23 +59,68 @@ document.addEventListener("DOMContentLoaded", function () {
   const imgElement = document.getElementById("eq_gantt_chart_img");
   const loadingMessage = document.getElementById("loading_message");
   const container = document.getElementById("eq_gantt_chart_fig");
+  const queryGanttForm = document.getElementById("gantt-chart-query-form");
+  const queryButton = document.getElementById("query-gantt-button");
 
-  // 假設你圖片的實際 URL 會被設定到 src
-  imgElement.src = "/api/chart/eqganttchart"; // 替換成你的圖片 URL
+  imgElement.src =
+    "https://d1129enkv2st0e.cloudfront.net/posts/52afa1eb-4da1-488e-bb86-391c2220edfe.webp";
 
-  imgElement.onload = function () {
-    // 圖片載入完成後
-    loadingMessage.style.display = "none"; // 隱藏載入訊息
-    imgElement.style.display = "block"; // 顯示圖片
-    container.style.background = "none"; // 移除背景色
-    container.style.border = "none"; // 移除邊框
-    container.style.minHeight = "auto"; // 恢復高度
-  };
+  queryGanttForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    queryButton.disabled = true;
+    queryButton.textContent = "查詢中...";
 
-  imgElement.onerror = function () {
-    // 圖片載入失敗時
-    loadingMessage.textContent = "甘特圖載入失敗，請稍後再試。";
-    loadingMessage.style.color = "red";
-    container.style.background = "#ffe0e0"; // 顯示錯誤背景
-  };
+    const formData = new FormData(queryGanttForm);
+    const queryParams = new URLSearchParams();
+    console.log("表單數據:", Object.fromEntries(formData.entries()));
+    for (const [key, value] of formData.entries()) {
+      if (value) {
+        queryParams.append(key, value);
+      } else {
+        queryParams.append(key, "");
+      }
+    }
+
+    const apiUrl = "/api/chart/ganttchart";
+    const fullUrl = `${apiUrl}?${queryParams.toString()}`;
+
+    console.log("查詢 URL:", fullUrl);
+
+    try {
+      const response = await fetch(fullUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.detail || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      console.log("查詢結果:", data);
+
+      imgElement.src = `${data.url}`;
+
+      console.log(imgElement.src);
+
+      imgElement.onerror = function () {
+        // 圖片載入失敗時
+        loadingMessage.textContent = "甘特圖載入失敗，請稍後再試。";
+        loadingMessage.style.color = "red";
+        container.style.background = "#ffe0e0"; // 顯示錯誤背景
+      };
+    } catch (error) {
+      console.error("查詢失敗:", error);
+
+      window.alert(`查詢失敗: ${error.message}`);
+    } finally {
+      queryButton.disabled = false; // 啟用按鈕
+      queryButton.textContent = "查詢";
+    }
+  });
 });

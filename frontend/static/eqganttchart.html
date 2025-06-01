@@ -56,11 +56,6 @@
         <nav class="function_nav">
           <ul id="function_nav_ul" class="function_nav_ul">
             <li class="function_nav_ul_li"><a href="#">OEE</a></li>
-            <div class="detail_area">
-              <a href="#">Total OEE</a>
-              <a href="#">廠區 OEE</a>
-              <a href="#">機型 OEE</a>
-            </div>
             <li
               class="function_nav_ul_li eq_gantt_chart"
               style="background-color: #ccc"
@@ -76,17 +71,6 @@
             <hr /> -->
             <form id="gantt-chart-query-form" class="gantt-query-form">
               <div class="ie-query-form-input-parent">
-                <div class="div3 ie-query-form-input-div">
-                  <label class="ie-query-form-label" for="eqp_type"
-                    >eqp_type</label
-                  >
-                  <input
-                    class="update-ie-stdt-input"
-                    type="text"
-                    name="eqp_type"
-                    placeholder="請輸入設備類型"
-                  />
-                </div>
                 <div class="div4 ie-query-form-input-div">
                   <label class="ie-query-form-label" for="station_name"
                     >station_name</label
@@ -96,17 +80,6 @@
                     type="text"
                     name="station_name"
                     placeholder="請輸入站點名稱"
-                  />
-                </div>
-                <div class="div5 ie-query-form-input-div">
-                  <label class="ie-query-form-label" for="module_name"
-                    >module_name</label
-                  >
-                  <input
-                    class="update-ie-stdt-input"
-                    type="text"
-                    name="module_name"
-                    placeholder="請輸入站點之 module"
                   />
                 </div>
                 <div class="div6 ie-query-form-input-div">
@@ -123,27 +96,30 @@
                 <div class="div7">
                   <button
                     type="submit"
-                    class="ie-query-stdt-button"
-                    id="ie-query-stdt-button"
+                    class="query-gantt-button"
+                    id="query-gantt-button"
                   >
                     查詢
                   </button>
-                  <button type="button" id="downloadCsvButton">下載結果</button>
                 </div>
               </div>
             </form>
 
             <div id="gantt_charts-result-pagenumber" class="">
-              <!-- 這邊放搜尋結果的頁碼 -->
+              <p>
+                目前查詢僅支持輸入 station_name：CPU、work_date：20250522~0531
+              </p>
             </div>
 
             <figure id="eq_gantt_chart_fig">
-              <span id="loading_message">甘特圖載入中...</span>
+              <span id="loading_message" style="display: none"
+                >甘特圖載入中...</span
+              >
               <img
                 id="eq_gantt_chart_img"
                 src=""
                 alt="甘特圖載入中..."
-                style="display: none"
+                style="display: flex"
               />
             </figure>
           </div>
