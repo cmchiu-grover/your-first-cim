@@ -1,5 +1,6 @@
 // import { checkSignin } from "./dashboard.js";
 import { userNameP, funcNavUl } from "./variables.js";
+import { signout } from "./user.js";
 
 async function checkSignin() {
   const token = localStorage.getItem("access_token");
@@ -54,6 +55,7 @@ async function main() {
 }
 
 main();
+signout();
 
 document.addEventListener("DOMContentLoaded", function () {
   const imgElement = document.getElementById("eq_gantt_chart_img");
