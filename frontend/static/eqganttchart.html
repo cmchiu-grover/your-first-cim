@@ -55,7 +55,7 @@
       <section>
         <nav class="function_nav">
           <ul id="function_nav_ul" class="function_nav_ul">
-            <li class="function_nav_ul_li"><a href="#">OEE</a></li>
+            <li class="function_nav_ul_li"><a href="oee">OEE</a></li>
             <li
               class="function_nav_ul_li eq_gantt_chart"
               style="background-color: #ccc"
@@ -75,12 +75,20 @@
                   <label class="ie-query-form-label" for="station_name"
                     >station_name</label
                   >
-                  <input
-                    class="update-ie-stdt-input"
-                    type="text"
-                    name="station_name"
-                    placeholder="請輸入站點名稱"
-                  />
+                  <select class="update-ie-stdt-input" name="station_name">
+                    <option value="" disabled selected hidden>
+                      請選擇站點
+                    </option>
+                    <option value="CPU">CPU</option>
+                    <option value="RAM">RAM</option>
+                    <option value="ROM">ROM</option>
+                    <option value="GPU">GPU</option>
+                    <option value="PSU">PSU</option>
+                    <option value="CLS">CLS</option>
+                    <option value="CWG">CWG</option>
+                    <option value="CCA">CCA</option>
+                    <option value="PKG">PKG</option>
+                  </select>
                 </div>
                 <div class="div6 ie-query-form-input-div">
                   <label class="ie-query-form-label" for="work_date"
@@ -88,7 +96,7 @@
                   >
                   <input
                     class="update-ie-stdt-input"
-                    type="text"
+                    type="date"
                     name="work_date"
                     placeholder="8碼，例：20250101"
                   />
