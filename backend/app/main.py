@@ -47,6 +47,10 @@ async def eqganttchart(request: Request):
 async def template(request: Request):
     return FileResponse("frontend/static/notifications.html", media_type="text/html")
 
+@app.get("/oee", include_in_schema=False)
+async def template(request: Request):
+    return FileResponse("frontend/static/oee.html", media_type="text/html")
+
 @app.get("/template", include_in_schema=False)
 async def template(request: Request):
     return FileResponse("frontend/static/template.html", media_type="text/html")
