@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/dashboard">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li class="li_username">
+              <p id="username" class="p_username"></p>
+            </li>
+            <li id="notifications-li">
+              <i id="notifications" class="material-icons">notifications</i>
+              <span
+                id="updateDot"
+                style="
+                  display: none;
+                  background: red;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  margin-left: 5px;
+                "
+              ></span>
+            </li>
+            <li id="list_button">
+              <i class="material-icons">list</i>
+            </li>
+            <li class="li_signout_button">
+              <p id="signout_button">登出</p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul id="function_nav_ul" class="function_nav_ul">
+            <li class="function_nav_ul_li" style="background-color: #ccc">
+              <a href="oee" style="color: #000">OEE</a>
+            </li>
+            <li class="function_nav_ul_li eq_gantt_chart">
+              <a href="gantt">機況圖</a>
+            </li>
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <!-- <h1 class="function_title">機況圖</h1>
+            <hr /> -->
+            <form id="gantt-chart-query-form" class="gantt-query-form">
+              <div class="ie-query-form-input-parent">
+                <div class="div4 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="station_name"
+                    >station_name</label
+                  >
+                  <select class="update-ie-stdt-input" name="station_name">
+                    <option value="" disabled selected hidden>
+                      請選擇站點
+                    </option>
+                    <option value="CPU">CPU</option>
+                    <option value="RAM">RAM</option>
+                    <option value="ROM">ROM</option>
+                    <option value="GPU">GPU</option>
+                    <option value="PSU">PSU</option>
+                    <option value="CLS">CLS</option>
+                    <option value="CWG">CWG</option>
+                    <option value="CCA">CCA</option>
+                    <option value="PKG">PKG</option>
+                  </select>
+                </div>
+                <div class="div6 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="work_date"
+                    >work_date</label
+                  >
+                  <input
+                    class="update-ie-stdt-input"
+                    type="date"
+                    name="work_date"
+                    placeholder="8碼，例：20250101"
+                  />
+                </div>
+                <div class="div7">
+                  <button
+                    type="submit"
+                    class="query-gantt-button"
+                    id="query-gantt-button"
+                  >
+                    查詢
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div id="gantt_charts-result-pagenumber" class="">
+              <p>
+                目前查詢僅支持輸入 station_name：CPU、work_date：20250522~0531
+              </p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Your First CIM App</p>
+      </footer>
+    </main>
+    <!-- <script type="module" src="/js/gantt.js"></script> -->
+    <script src="/js/notification.js"></script>
+    <script>
+      NotificationHandler.init({ withSSE: true });
+    </script>
+  </body>
+</html>
