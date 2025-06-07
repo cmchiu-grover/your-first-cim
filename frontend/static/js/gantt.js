@@ -57,15 +57,40 @@ async function main() {
 main();
 signout();
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const imgElement = document.getElementById("eq_gantt_chart_img");
   const loadingMessage = document.getElementById("loading_message");
   const container = document.getElementById("eq_gantt_chart_fig");
   const queryGanttForm = document.getElementById("gantt-chart-query-form");
   const queryButton = document.getElementById("query-gantt-button");
 
-  imgElement.src =
-    "https://d1129enkv2st0e.cloudfront.net/posts/52afa1eb-4da1-488e-bb86-391c2220edfe.webp";
+  try {
+    const response = await fetch("/api/chart/ganttchart/yesterday", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.detail || `HTTP error! status: ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+    console.log("查詢結果:", data);
+    const yesterdaySrc = data.url;
+
+    imgElement.src = yesterdaySrc;
+
+    // console.log(imgElement.src);
+  } catch (error) {
+    console.error("查詢失敗:", error);
+
+    window.alert(`查詢失敗: ${error.message}`);
+  }
 
   queryGanttForm.addEventListener("submit", async (event) => {
     event.preventDefault();

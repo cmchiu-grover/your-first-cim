@@ -71,11 +71,22 @@
             <hr /> -->
             <form id="gantt-chart-query-form" class="gantt-query-form">
               <div class="ie-query-form-input-parent">
+                <div class="div6 ie-query-form-input-div">
+                  <label class="ie-query-form-label" for="work_date"
+                    >work_date</label
+                  >
+                  <input
+                    class="work-date-select"
+                    type="date"
+                    name="work_date"
+                    placeholder="8碼，例：20250101"
+                  />
+                </div>
                 <div class="div4 ie-query-form-input-div">
                   <label class="ie-query-form-label" for="station_name"
                     >station_name</label
                   >
-                  <select class="update-ie-stdt-input" name="station_name">
+                  <select class="station-name-select" name="station_name">
                     <option value="" disabled selected hidden>
                       請選擇站點
                     </option>
@@ -90,17 +101,7 @@
                     <option value="PKG">PKG</option>
                   </select>
                 </div>
-                <div class="div6 ie-query-form-input-div">
-                  <label class="ie-query-form-label" for="work_date"
-                    >work_date</label
-                  >
-                  <input
-                    class="update-ie-stdt-input"
-                    type="date"
-                    name="work_date"
-                    placeholder="8碼，例：20250101"
-                  />
-                </div>
+
                 <div class="div7">
                   <button
                     type="submit"
