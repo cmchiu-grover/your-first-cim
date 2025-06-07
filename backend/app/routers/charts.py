@@ -5,7 +5,7 @@ from backend.app.db.dbquery import get_gantt_chart_data
 from datetime import datetime
 from datetime import timedelta
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 
 router = APIRouter()
 
@@ -36,6 +36,46 @@ class GanttChartRecord(BaseModel):
     station_name: str
     work_date: datetime
 
+@router.get("/api/chart/ganttchart/yesterday")
+async def get_gantt_chart_url(
+    request: Request,
+):
+    try:
+        now = datetime.now()
+
+        if now.hour < 7:
+            target_date = now - timedelta(days=2)
+        else:
+            target_date = now - timedelta(days=1)
+
+        formatted_date = target_date.strftime("%Y/%m/%d")
+        data_list = get_gantt_chart_data(
+            station_name="CPU",
+            work_date=formatted_date,
+        )
+
+        print(data_list)
+
+        gantt_chart_url = data_list.get('image_url')
+
+        return JSONResponse(
+            status_code=200,
+            content={
+                "ok":True,
+                "url":gantt_chart_url
+                }
+                )
+
+    except Exception as e:
+        print(f"query_standard_times 錯誤：{e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error":True,
+                "message":"伺服器錯誤..."
+                }
+                )
+
 
 @router.get("/api/chart/ganttchart")
 async def get_gantt_chart_url(
@@ -44,7 +84,7 @@ async def get_gantt_chart_url(
     work_date: Optional[str] = Query(None, description="work_date (YYYY-MM-DD)")
 ):
     try:
-        formatted_date = datetime.strptime(work_date, "%Y%m%d").strftime("%Y/%m/%d")
+        formatted_date = datetime.strptime(work_date, "%Y-%m-%d").strftime("%Y/%m/%d")
         data_list = get_gantt_chart_data(
             station_name=station_name,
             work_date=formatted_date,
