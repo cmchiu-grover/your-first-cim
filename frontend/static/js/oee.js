@@ -13,34 +13,34 @@ async function checkSignin() {
 
     const result = await response.json();
     const userData = result.data;
+    console.log(userData.position);
 
     if (userData) {
       const userName = userData.name;
       userNameP.textContent = `Hi ${userName}`;
+      //   userNameStrong.textContent = `${userName}`;
 
       let funcNavUlLi = document.createElement("li");
       funcNavUlLi.className = "function_nav_ul_li";
 
+      console.log(userData.position);
+
       let funcNavUlLiA = document.createElement("a");
       funcNavUlLiA.textContent = `${userData.position} 維護`;
 
-      funcNavUlLi.appendChild(funcNavUlLiA);
-      funcNavUl.appendChild(funcNavUlLi);
-
       if (userData.position === "IE") {
+        // 這邊放IE維護
         funcNavUlLiA.href = "/iemaintain";
-        let funcNavUlDiv = document.createElement("div");
-        let funcNavUlDivI = document.createElement("i");
-        funcNavUlDivI.className = "material-icons";
-        funcNavUlDivI.textContent = "arrow_right";
-        funcNavUlDivA2.appendChild(funcNavUlDivI);
-        funcNavUlDiv.className = "ie_maintain_div";
-        funcNavUl.appendChild(funcNavUlDiv);
+      } else if (userData.position === "MFG") {
+        // 這邊放MFG維護
+        funcNavUlLiA.href = "/mfgmaintain";
       } else {
         // 這邊放EQ維護
-        window.alert("權限不足，無法進入此頁面！");
-        window.location.href = "/";
+        funcNavUlLiA.href = "/eqmaintain";
       }
+
+      funcNavUlLi.appendChild(funcNavUlLiA);
+      funcNavUl.appendChild(funcNavUlLi);
     }
   } else {
     window.alert("請先登入");
