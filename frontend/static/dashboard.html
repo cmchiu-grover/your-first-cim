@@ -70,26 +70,70 @@
 
         <article>
           <div class="article_area">
-            <h1 class="function_title">Dashboard</h1>
+            <div class="dashboard-welcome">
+              <h1 class="function_title">Dashboard</h1>
 
-            <p class="welcome_text">歡迎回來，這是您的 CIM Dashboard。</p>
-
+              <p class="welcome_text">歡迎回來，這是您的 CIM Dashboard。</p>
+            </div>
             <hr style="margin-top: 20px" />
 
             <!-- 概覽區塊 -->
             <div class="dashboard_summary">
-              <div class="summary_card">
-                <h2>Yesterday's OEE</h2>
-                <p id="availability_rate">TBD</p>
-              </div>
-              <div class="summary_card">
-                <h2>Yesterday's Availability</h2>
-                <p id="quality_rate">TBD</p>
-              </div>
-              <div class="summary_card">
-                <h2>Yesterday's Performance</h2>
-                <p id="error_count">TBD</p>
-              </div>
+              <h2>Yesterday's OEE</h2>
+              <table id="performanceTable" class="dashboard-oee-table">
+                <thead>
+                  <tr>
+                    <th>Metrics</th>
+                    <th>CPU</th>
+                    <th>RAM</th>
+                    <th>ROM</th>
+                    <th>GPU</th>
+                    <th>PSU</th>
+                    <th>CLS</th>
+                    <th>CWG</th>
+                    <th>CCA</th>
+                    <th>PKG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="oeeRow">
+                    <td>OEE Rate(%)</td>
+                    <td class="editable" data-station="CPU"></td>
+                    <td class="editable" data-station="RAM"></td>
+                    <td class="editable" data-station="ROM"></td>
+                    <td class="editable" data-station="GPU"></td>
+                    <td class="editable" data-station="PSU"></td>
+                    <td class="editable" data-station="CLS"></td>
+                    <td class="editable" data-station="CWG"></td>
+                    <td class="editable" data-station="CCA"></td>
+                    <td class="editable" data-station="PKG"></td>
+                  </tr>
+                  <tr id="availRow">
+                    <td>Availability Rate(%)</td>
+                    <td class="editable" data-station="CPU"></td>
+                    <td class="editable" data-station="RAM"></td>
+                    <td class="editable" data-station="ROM"></td>
+                    <td class="editable" data-station="GPU"></td>
+                    <td class="editable" data-station="PSU"></td>
+                    <td class="editable" data-station="CLS"></td>
+                    <td class="editable" data-station="CWG"></td>
+                    <td class="editable" data-station="CCA"></td>
+                    <td class="editable" data-station="PKG"></td>
+                  </tr>
+                  <tr id="perfRow">
+                    <td>Performance Rate(%)</td>
+                    <td class="editable" data-station="CPU"></td>
+                    <td class="editable" data-station="RAM"></td>
+                    <td class="editable" data-station="ROM"></td>
+                    <td class="editable" data-station="GPU"></td>
+                    <td class="editable" data-station="PSU"></td>
+                    <td class="editable" data-station="CLS"></td>
+                    <td class="editable" data-station="CWG"></td>
+                    <td class="editable" data-station="CCA"></td>
+                    <td class="editable" data-station="PKG"></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </article>
