@@ -389,6 +389,57 @@ body main section article .article_area {
   height: 100%;
   padding: 20px 20px 20px 30px;
 }
+body main section article .article_area .dashboard-welcome {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+body main section article .article_area .dashboard-welcome h1.function_title {
+  margin-right: 20px;
+}
+body main section article .article_area .dashboard_summary table.dashboard-oee-table,
+body main section article .article_area .oee-table-div table.dashboard-oee-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  background-color: #ffffff;
+}
+body main section article .article_area .dashboard_summary table.dashboard-oee-table th,
+body main section article .article_area .dashboard_summary table.dashboard-oee-table td,
+body main section article .article_area .oee-table-div table.dashboard-oee-table th,
+body main section article .article_area .oee-table-div table.dashboard-oee-table td {
+  border: 2px solid #7c7c7c;
+  text-align: left;
+  padding: 8px;
+}
+body main section article .article_area .dashboard_summary table.dashboard-oee-table th,
+body main section article .article_area .oee-table-div table.dashboard-oee-table th {
+  background-color: #b7b2b2;
+}
+body main section article .article_area .dashboard_summary table.dashboard-oee-table td,
+body main section article .article_area .oee-table-div table.dashboard-oee-table td {
+  color: #000;
+}
+body main section article .article_area .dashboard_summary table.dashboard-oee-table td.low-value,
+body main section article .article_area .oee-table-div table.dashboard-oee-table td.low-value {
+  color: red;
+  font-weight: bold;
+}
+body main section article .article_area .oee-table-div {
+  width: 100%;
+  overflow-x: scroll;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+body main section article .article_area .oee-table-div h2 {
+  margin: 0 0 20px 0;
+}
+body main section article .article_area .oee-table-div table#stationOEETable {
+  width: 100%;
+  overflow-x: scroll;
+}
 body main section article .article_area h1.function_title {
   font-size: 36px;
   color: #ffffff;
@@ -445,6 +496,15 @@ body main section article .article_area .ie-maintain-update-button-container #up
   width: 125px;
   color: #f99a1e;
   background-color: #1c1c1d;
+  cursor: pointer;
+}
+body main section article .article_area .ie-maintain-update-button-container #downCSVButton {
+  margin-right: 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  height: 36px;
+  width: 125px;
   cursor: pointer;
 }
 body main section article .article_area form.ie_maintain_form {
@@ -571,26 +631,30 @@ body main section article .article_area form.ie-query-form .ie-query-form-input-
   font-size: 16px;
   font-family: sans-serif;
 }
-body main section article .article_area form.gantt-query-form {
-  margin: 20px 0 20px 0;
+body main section article .article_area form.gantt-query-form,
+body main section article .article_area form.oee-table-query-form {
+  margin: 20px 0 0px 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-body main section article .article_area form.gantt-query-form .ie-query-form-input-parent {
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent {
   max-width: 800px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   gap: 15px;
 }
-body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 {
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent .div7 {
   grid-column: span 2/span 2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 button {
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 button,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent .div7 button {
   font-size: 20px;
   margin: 5px 5px 5px 5px;
   border-radius: 5px;
@@ -601,19 +665,22 @@ body main section article .article_area form.gantt-query-form .ie-query-form-inp
   background-color: #1c1c1d;
   cursor: pointer;
 }
-body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 #downloadCsvButton {
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .div7 #downloadCsvButton,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent .div7 #downloadCsvButton {
   cursor: not-allowed;
   color: #999;
   background-color: #f2f2f2;
 }
-body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div {
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent .ie-query-form-input-div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   height: 40px;
 }
-body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div label.ie-query-form-label {
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div label.ie-query-form-label,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent .ie-query-form-input-div label.ie-query-form-label {
   height: 100%;
   flex: 0;
   color: #1c1c1d;
@@ -624,12 +691,123 @@ body main section article .article_area form.gantt-query-form .ie-query-form-inp
   border-radius: 5px 0 0 5px;
 }
 body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div input.work-date-select,
-body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div select.station-name-select {
+body main section article .article_area form.gantt-query-form .ie-query-form-input-parent .ie-query-form-input-div select.station-name-select,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent .ie-query-form-input-div input.work-date-select,
+body main section article .article_area form.oee-table-query-form .ie-query-form-input-parent .ie-query-form-input-div select.station-name-select {
   flex: 1;
   width: 100%;
   height: 100%;
   border-radius: 0 5px 5px 0;
   border: solid 1px #747474;
+}
+body main section article .article_area form.gantt-query-form .oee-query-form-parent,
+body main section article .article_area form.oee-table-query-form .oee-query-form-parent {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 15px;
+  align-items: center;
+}
+body main section article .article_area form.gantt-query-form .oee-query-form-parent div.query-form-input-div,
+body main section article .article_area form.oee-table-query-form .oee-query-form-parent div.query-form-input-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+body main section article .article_area form.gantt-query-form .oee-query-form-parent div.query-form-input-div label.oee-query-form-label,
+body main section article .article_area form.oee-table-query-form .oee-query-form-parent div.query-form-input-div label.oee-query-form-label {
+  height: 100%;
+  flex: 0;
+  color: #1c1c1d;
+  background-color: #f99a1e;
+  font-size: 16px;
+  padding: 5px 5px 0 5px;
+  border: solid 1px #747474;
+  border-radius: 5px 0 0 5px;
+}
+body main section article .article_area form.gantt-query-form .oee-query-form-parent div.query-form-input-div input.work-date-select,
+body main section article .article_area form.gantt-query-form .oee-query-form-parent div.query-form-input-div select.station-name-select,
+body main section article .article_area form.oee-table-query-form .oee-query-form-parent div.query-form-input-div input.work-date-select,
+body main section article .article_area form.oee-table-query-form .oee-query-form-parent div.query-form-input-div select.station-name-select {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 5px 5px 0;
+  border: solid 1px #747474;
+}
+body main section article .article_area form.gantt-query-form .oee-query-form-parent div button.query-oee-button,
+body main section article .article_area form.oee-table-query-form .oee-query-form-parent div button.query-oee-button {
+  font-size: 20px;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  height: 36px;
+  width: 125px;
+  color: #f99a1e;
+  background-color: #1c1c1d;
+  cursor: pointer;
+}
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 15px;
+  align-items: center;
+}
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.query-form-input-div,
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.div2,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.query-form-input-div,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.div2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.query-form-input-div label.oee-query-form-label,
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.div2 label.oee-query-form-label,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.query-form-input-div label.oee-query-form-label,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.div2 label.oee-query-form-label {
+  height: 100%;
+  flex: 0;
+  color: #1c1c1d;
+  background-color: #f99a1e;
+  font-size: 16px;
+  padding: 5px 5px 0 5px;
+  border: solid 1px #747474;
+  border-radius: 5px 0 0 5px;
+}
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.query-form-input-div input.work-date-select,
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.query-form-input-div select.station-name-select,
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.div2 input.work-date-select,
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div.div2 select.station-name-select,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.query-form-input-div input.work-date-select,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.query-form-input-div select.station-name-select,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.div2 input.work-date-select,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div.div2 select.station-name-select {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 5px 5px 0;
+  border: solid 1px #747474;
+}
+body main section article .article_area form.gantt-query-form .station-oee-query-form-parent div button.query-oee-button,
+body main section article .article_area form.oee-table-query-form .station-oee-query-form-parent div button.query-oee-button {
+  font-size: 20px;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  height: 36px;
+  width: 125px;
+  color: #f99a1e;
+  background-color: #1c1c1d;
+  cursor: pointer;
+}
+body main section article .article_area form.oee-table-query-form {
+  flex-direction: column;
 }
 body main section article .article_area #ie-query-result-pagenumber,
 body main section article .article_area #gantt_charts-result-pagenumber {
