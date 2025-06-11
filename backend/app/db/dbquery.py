@@ -475,6 +475,38 @@ def get_oee_data(work_date):
         except:
             pass
 
+def get_temp_oee_data(work_date):
+    
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)  
+
+        base_sql = """
+            SELECT station_name AS Metrics, 
+            AVG(oee_rate) AS oee_rate, 
+            AVG(avail_rate) AS avail_rate, 
+            AVG(perf_rate) AS perf_rate
+            FROM temp_oee
+            WHERE work_date = %s
+            GROUP BY station_name, work_date;
+        """
+
+        cursor.execute(base_sql, (work_date,))
+        temp_oee_data = cursor.fetchall()
+
+        return temp_oee_data
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+
 def get_station_oee_data(station_name, work_date):
     try:
         cnx = get_connection_pool()  

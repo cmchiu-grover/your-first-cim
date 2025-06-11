@@ -5,9 +5,8 @@ from dotenv import load_dotenv
 import os
 import jwt
 from passlib.context import CryptContext
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 from fastapi import Request
-from datetime import datetime
 from sqlalchemy import text
 from pydantic import BaseModel
 
@@ -302,7 +301,6 @@ def mark_all_notifications_read(user_id):
         cursor.close()
         cxn.close()
 
-
 def insert_gantt_chart_data(station_name: str, work_date: str, image_url: str):
     try:
         cnx = get_connection_pool()  
@@ -373,5 +371,85 @@ def update_eqp_status_comment(item):
             print(f"Error closing connection: {e}")
             pass
 
+def insert_final_oee_data(data: list):
+        
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)
+
+        for row in data:
+        
+            insert_query = """
+                INSERT INTO `final_oee`
+                (
+                    `eqp_id`,
+                    `eqp_code`,
+                    `station_name`,
+                    `module_name`,
+                    `year`,
+                    `month`,
+                    `week`,
+                    `work_date`,
+                    `oee_rate`,
+                    `avail_rate`,
+                    `perf_rate`
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+            cursor.execute(insert_query, (
+                row.get("eqp_id"),
+                row.get("eqp_code"),
+                row.get("station_name"),
+                row.get("module_name"),
+                row.get("year"),
+                row.get("month"),
+                row.get("week"),
+                row.get("work_date"),
+                row.get("oee_rate"),
+                row.get("avail_rate"),
+                row.get("perf_rate")
+            ))
+            cnx.commit()
+            print(f"{row.get("eqp_code")} 在 {row.get("work_date")} 的資料 INSERT 成功。")
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+
+def delete_temp_oee_data(data: list):
+        
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)
+
+        for row in data:
+        
+            delete_query = """
+                DELETE FROM temp_oee 
+                WHERE id = %s;
+                """
+            cursor.execute(delete_query, (
+                row.get("id"),
+            ))
+            cnx.commit()
+            print(f"{row.get("eqp_code")} 在 {row.get("work_date")} 的 temp_oee 資料 DELETE 成功。")
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
 
 
