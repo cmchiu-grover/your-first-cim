@@ -809,8 +809,80 @@ body main section article .article_area form.oee-table-query-form .station-oee-q
 body main section article .article_area form.oee-table-query-form {
   flex-direction: column;
 }
+body main section article .article_area #updateEQButton {
+  cursor: not-allowed;
+  color: #999;
+  background-color: #f2f2f2;
+}
+body main section article .article_area form.query-form {
+  margin: 20px 0 20px 0;
+}
+body main section article .article_area form.query-form .query-form-input-parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 15px;
+}
+body main section article .article_area form.query-form .query-form-input-parent .div4 {
+  grid-row-start: 2;
+}
+body main section article .article_area form.query-form .query-form-input-parent .div5 {
+  grid-row-start: 2;
+}
+body main section article .article_area form.query-form .query-form-input-parent .div6 {
+  grid-row-start: 2;
+}
+body main section article .article_area form.query-form .query-form-input-parent .div6 {
+  grid-column: span 3/span 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body main section article .article_area form.query-form .query-form-input-parent .div6 button {
+  font-size: 20px;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  height: 36px;
+  width: 125px;
+  color: #f99a1e;
+  background-color: #1c1c1d;
+  cursor: pointer;
+}
+body main section article .article_area form.query-form .query-form-input-parent .query-form-input-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+body main section article .article_area form.query-form .query-form-input-parent .query-form-input-div label.query-form-label {
+  height: 100%;
+  flex: 0;
+  color: #1c1c1d;
+  background-color: #f99a1e;
+  font-size: 16px;
+  padding: 5px 5px 0 5px;
+  border: solid 1px #747474;
+  border-radius: 5px 0 0 5px;
+}
+body main section article .article_area form.query-form .query-form-input-parent .query-form-input-div input.query-form-input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: solid 1px #747474;
+  font-size: 1.05rem;
+  padding: 0.5rem;
+  margin: 0.35rem;
+  border-radius: 0.25rem;
+}
+body main section article .article_area form.query-form .query-form-input-parent .query-form-input-div input.query-form-input option {
+  font-size: 16px;
+  font-family: sans-serif;
+}
 body main section article .article_area #ie-query-result-pagenumber,
-body main section article .article_area #gantt_charts-result-pagenumber {
+body main section article .article_area #gantt_charts-result-pagenumber,
+body main section article .article_area #eq-query-result-pagenumber {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -818,7 +890,8 @@ body main section article .article_area #gantt_charts-result-pagenumber {
   align-items: center;
 }
 body main section article .article_area #ie-query-result-pagenumber .pagination-nav button,
-body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button {
+body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button,
+body main section article .article_area #eq-query-result-pagenumber .pagination-nav button {
   padding: 6px 10px;
   border: 1px solid #ccc;
   background-color: white;
@@ -826,18 +899,21 @@ body main section article .article_area #gantt_charts-result-pagenumber .paginat
   border-radius: 4px;
 }
 body main section article .article_area #ie-query-result-pagenumber .pagination-nav button.active,
-body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button.active {
+body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button.active,
+body main section article .article_area #eq-query-result-pagenumber .pagination-nav button.active {
   background-color: #f99a1e;
   color: white;
   font-weight: bold;
 }
 body main section article .article_area #ie-query-result-pagenumber .pagination-nav button:disabled,
-body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button:disabled {
+body main section article .article_area #gantt_charts-result-pagenumber .pagination-nav button:disabled,
+body main section article .article_area #eq-query-result-pagenumber .pagination-nav button:disabled {
   background-color: #f2f2f2;
   color: #999;
   cursor: not-allowed;
 }
-body main section article .article_area #ie-query-result-pagenumber {
+body main section article .article_area #ie-query-result-pagenumber,
+body main section article .article_area #eq-query-result-pagenumber {
   height: 70px;
 }
 body main section article .article_area #gantt_charts-result-pagenumber {
@@ -909,6 +985,99 @@ body main section article .article_area #ie-query-result-area form.ie-query-resu
   border-radius: 5px;
   border: solid 3px #f99a1e;
   text-align: center;
+}
+body main section article .article_area .eq-query-result-area {
+  width: 100%;
+  height: 100%;
+  max-height: 410px;
+}
+body main section article .article_area .eq-query-result-area form.eq-query-result-form {
+  height: 100%;
+  width: 100%;
+  padding: 10px 0 20px 10px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  gap: 8px;
+  border: outset 3px #e4e6ea;
+  border-radius: 5px;
+  overflow: scroll;
+  overflow-y: scroll;
+}
+body main section article .article_area .eq-query-result-area form.eq-query-result-form .eq_query_maintain_items_div {
+  display: grid;
+  grid-template-columns: 20px 50px 100px repeat(8, 150px) 250px; /* div1 為 200px，其餘為 100px */
+  grid-auto-rows: auto-fit; /* 每列高度 */
+  gap: 10px; /* 固定間距 */
+  justify-content: start; /* 靠左排列，避免等比縮放 */
+}
+body main section article .article_area .eq-query-result-area form.eq-query-result-form .eq_query_maintain_items_div h3 {
+  text-align: center;
+  height: 40px;
+  width: 100%;
+  margin: 5px 5px 5px 5px;
+  color: #1c1c1d;
+  background-color: #f99a1e;
+  font-size: 16px;
+  padding: 5px 5px 0 5px;
+  border: solid 1px #747474;
+  border-radius: 5px;
+}
+body main section article .article_area .eq-query-result-area form.eq-query-result-form .eq_query_result_maintain_div {
+  display: grid;
+  grid-template-columns: 20px 50px 100px repeat(8, 150px) 250px;
+  grid-auto-rows: auto-fit; /* 每列高度 */
+  gap: 10px; /* 固定間距 */
+  justify-content: start; /* 靠左排列，避免等比縮放 */
+  align-items: center;
+}
+body main section article .article_area .eq-query-result-area form.eq-query-result-form .eq_query_result_maintain_div input.eq_query_checkbox {
+  height: 15px;
+  width: 15px;
+}
+body main section article .article_area .eq-query-result-area form.eq-query-result-form .eq_query_result_maintain_div input.eq_query_result_input {
+  height: 40px;
+  width: 100%;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  background-color: #e0e0e0;
+  pointer-events: none;
+}
+body main section article .article_area .eq-query-result-area form.eq-query-result-form .eq_query_result_maintain_div input.eq_maintain_input {
+  height: 40px;
+  width: 100%;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: solid 3px #f99a1e;
+  text-align: center;
+}
+body main section article .article_area .eq-update-button-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+body main section article .article_area .eq-update-button-div #updateEQButton {
+  font-size: 20px;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  height: 36px;
+  width: 125px;
+}
+body main section article .article_area .eq-update-button-div #updateMFGButton {
+  font-size: 20px;
+  margin: 5px 5px 5px 5px;
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  height: 36px;
+  width: 140px;
+  cursor: not-allowed;
+  color: #999;
+  background-color: #f2f2f2;
 }
 body main section article .article_area .notification_area ul.notification_list li {
   padding: 10px;
