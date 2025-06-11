@@ -2,8 +2,7 @@ from fastapi import APIRouter, Request, Query
 from fastapi.responses import JSONResponse, StreamingResponse
 from backend.app.models.plot import create_eq_gantt_chart
 from backend.app.db.dbquery import get_gantt_chart_data
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta, date, time
 from pydantic import BaseModel
 from typing import Optional
 
@@ -42,16 +41,18 @@ async def get_gantt_chart_url(
 ):
     try:
         now = datetime.now()
+        seven_am_today = datetime.combine(date.today(), time(7, 0))
 
-        if now.hour < 7:
-            target_date = now - timedelta(days=2)
+        if now < seven_am_today:
+        
+            yesterday_work_date = date.today() - timedelta(days=1)
         else:
-            target_date = now - timedelta(days=1)
+        
+            yesterday_work_date = date.today()
 
-        formatted_date = target_date.strftime("%Y/%m/%d")
         data_list = get_gantt_chart_data(
             station_name="CPU",
-            work_date=formatted_date,
+            work_date=yesterday_work_date,
         )
 
         print(data_list)
