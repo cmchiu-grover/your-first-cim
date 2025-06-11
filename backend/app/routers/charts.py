@@ -5,10 +5,11 @@ from backend.app.db.dbquery import get_gantt_chart_data
 from datetime import datetime, timedelta, date, time
 from pydantic import BaseModel
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 router = APIRouter()
 
-
+tz = ZoneInfo("Asia/Taipei")
 
 @router.get("/api/chart/eqganttchart")
 def eq_gantt_chart():
@@ -40,15 +41,14 @@ async def get_gantt_chart_url(
     request: Request,
 ):
     try:
-        now = datetime.now()
-        seven_am_today = datetime.combine(date.today(), time(7, 0))
+        now = datetime.now(tz)
+        seven_am_today = datetime.combine(date.today(), time(7, 0)).replace(tzinfo=tz)
 
         if now < seven_am_today:
-        
-            yesterday_work_date = date.today() - timedelta(days=1)
+            yesterday_work_date = date.today() - timedelta(days=2)
         else:
-        
-            yesterday_work_date = date.today()
+            yesterday_work_date = date.today() - timedelta(days=1)
+    
 
         data_list = get_gantt_chart_data(
             station_name="CPU",
