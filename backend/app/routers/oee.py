@@ -1,30 +1,18 @@
 from fastapi import APIRouter, Request, Query
 from fastapi.responses import JSONResponse, StreamingResponse
-# from backend.app.models.plot import create_eq_gantt_chart
-# from backend.app.db.dbquery import get_gantt_chart_data
+from backend.app.db.dbquery import get_yesterday_oee_data, get_oee_data, get_station_oee_data
+from typing import Optional
 from datetime import datetime
 from datetime import timedelta
-# from pydantic import BaseModel
-# from typing import Optional
 
 router = APIRouter()
 
 @router.get("/api/oee/yesterday")
-async def get_gantt_chart_url(
+async def api_get_yesterday_oee_data(
     request: Request,
 ):
     try:
-        now = datetime.now()
-
-        if now.hour < 7:
-            target_date = now - timedelta(days=2)
-        else:
-            target_date = now - timedelta(days=1)
-
-        formatted_date = target_date.strftime("%Y/%m/%d")
-        yesterday_oee_data = get_yesterday_oee_data(
-            work_date=formatted_date,
-        )
+        yesterday_oee_data = get_yesterday_oee_data()
 
         print(yesterday_oee_data)
 
@@ -34,11 +22,87 @@ async def get_gantt_chart_url(
                 "ok":True,
                 "data":[
                 {
-                    "module": station["module_name"],
-                    "station": station["station_name"],
-                    "avil_rate": station["avil_rate"],
+                    "metrics": item["Metrics"],
+                    "oee_rate": float(item["oee_rate"]),
+                    "avail_rate": float(item["avail_rate"]),
+                    "perf_rate": float(item["perf_rate"]),
                 }
-                for station in yesterday_oee_data
+                for item in yesterday_oee_data
+                ]
+                }
+                )
+
+    except Exception as e:
+        print(f"query_standard_times 錯誤：{e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error":True,
+                "message":"伺服器錯誤..."
+                }
+                )
+
+@router.get("/api/oee")
+async def api_get_oee_data(
+    request: Request,
+    work_date: Optional[str] = Query(None, description="work_date (YYYY-MM-DD)")
+):
+    try:
+        formatted_date = datetime.strptime(work_date, "%Y-%m-%d").date()
+
+        oee_data = get_oee_data(formatted_date)
+        print(oee_data)
+
+        return JSONResponse(
+            status_code=200,
+            content={
+                "ok":True,
+                "data":[
+                {
+                    "metrics": item["Metrics"],
+                    "oee_rate": float(item["oee_rate"]),
+                    "avail_rate": float(item["avail_rate"]),
+                    "perf_rate": float(item["perf_rate"]),
+                }
+                for item in oee_data
+                ]
+                }
+                )
+
+    except Exception as e:
+        print(f"query_standard_times 錯誤：{e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error":True,
+                "message":"伺服器錯誤..."
+                }
+                )
+
+@router.get("/api/oee/station")
+async def api_get_station_oee_data(
+    request: Request,
+    station_name: Optional[str] = Query(None, description="station_name"),
+    work_date: Optional[str] = Query(None, description="work_date (YYYY-MM-DD)")
+):
+    try:
+        formatted_date = datetime.strptime(work_date, "%Y-%m-%d").date()
+
+        station_oee_data = get_station_oee_data(station_name, formatted_date)
+        print(station_oee_data)
+
+        return JSONResponse(
+            status_code=200,
+            content={
+                "ok":True,
+                "data":[
+                {
+                    "metrics": item["Metrics"],
+                    "oee_rate": float(item["oee_rate"]),
+                    "avail_rate": float(item["avail_rate"]),
+                    "perf_rate": float(item["perf_rate"]),
+                }
+                for item in station_oee_data
                 ]
                 }
                 )

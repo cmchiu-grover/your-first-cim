@@ -7,6 +7,7 @@ from backend.app.routers.queries import router as query_router
 from backend.app.routers.maintain import router as maintain_router
 from backend.app.routers.sse import router as sse_router
 from backend.app.routers.notifications import router as notifications_router
+from backend.app.routers.oee import router as oee_router
 
 
 # from app.routers.first_wk import router as first_week_router
@@ -22,6 +23,7 @@ app.include_router(query_router)
 app.include_router(maintain_router)
 app.include_router(sse_router)
 app.include_router(notifications_router)
+app.include_router(oee_router)
 
 @app.get("/", include_in_schema=False)
 async def index(request: Request):
