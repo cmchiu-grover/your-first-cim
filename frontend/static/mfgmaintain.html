@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/dashboard">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li class="li_username">
+              <p id="username" class="p_username"></p>
+            </li>
+            <li id="notifications-li">
+              <i id="notifications" class="material-icons">notifications</i>
+              <span
+                id="updateDot"
+                style="
+                  display: none;
+                  background: red;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  margin-left: 5px;
+                "
+              ></span>
+            </li>
+
+            <li id="list_button">
+              <i class="material-icons">list</i>
+            </li>
+            <li class="li_signout_button">
+              <p id="signout_button">登出</p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul id="function_nav_ul" class="function_nav_ul">
+            <li class="function_nav_ul_li"><a href="oee">OEE</a></li>
+
+            <li class="function_nav_ul_li">
+              <a href="/eqganttchart">機況圖</a>
+            </li>
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <h1 class="function_title">MFG 維護</h1>
+
+            <hr />
+
+            <form id="eq-query-form" class="query-form">
+              <div class="query-form-input-parent">
+                <div class="div1 query-form-input-div">
+                  <label class="query-form-label" for="work_date"
+                    >work_date</label
+                  >
+                  <input
+                    class="query-form-input"
+                    type="date"
+                    name="work_date"
+                  />
+                </div>
+                <div class="div2 query-form-input-div">
+                  <label class="query-form-label" for="module_name"
+                    >module_name</label
+                  >
+                  <input
+                    class="query-form-input"
+                    type="text"
+                    name="module_name"
+                    placeholder="請輸入站點之 module"
+                  />
+                </div>
+                <div class="div3 query-form-input-div">
+                  <label class="query-form-label" for="station_name"
+                    >station_name</label
+                  >
+                  <input
+                    class="query-form-input"
+                    type="text"
+                    name="station_name"
+                    placeholder="請輸入站點名稱"
+                  />
+                </div>
+                <div class="div4 query-form-input-div">
+                  <label class="query-form-label" for="eqp_type"
+                    >eqp_type</label
+                  >
+                  <input
+                    class="query-form-input"
+                    type="text"
+                    name="eqp_type"
+                    placeholder="請輸入設備類型"
+                  />
+                </div>
+                <div class="div5 query-form-input-div">
+                  <label class="query-form-label" for="eqp_code"
+                    >eqp_code</label
+                  >
+                  <input
+                    class="query-form-input"
+                    type="text"
+                    name="eqp_code"
+                    placeholder="請輸入設備號碼"
+                  />
+                </div>
+                <div class="div6 query-form-input-div">
+                  <button
+                    type="submit"
+                    class="query-button"
+                    id="eq-query-status-button"
+                  >
+                    查詢
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="eq-update-button-div">
+              <button type="button" id="updateMFGButton">更新 MFG 維護</button>
+            </div>
+
+            <div id="eq-query-result-pagenumber">
+              <!-- 這邊放搜尋結果的頁碼 -->
+            </div>
+            <div id="eq-query-result-area" class="eq-query-result-area">
+              <!-- 這邊放搜尋結果，一頁呈現10筆 -->
+
+              <form
+                class="eq-query-result-form"
+                id="eq-query-result-form"
+                method="put"
+                autocomplete="off"
+              >
+                <div class="eq_query_maintain_items_div">
+                  <div class="eq_query_maintain_items_div_1"></div>
+                  <h3>id</h3>
+                  <h3>work_date</h3>
+                  <h3>module_name</h3>
+                  <h3>station_name</h3>
+                  <h3>eqp_type</h3>
+                  <h3>eqp_code</h3>
+                  <h3>start_time</h3>
+                  <h3>end_time</h3>
+                  <h3>duration(mins)</h3>
+                  <h3>status</h3>
+                  <h3>comment</h3>
+                </div>
+              </form>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Your First CIM App</p>
+      </footer>
+    </main>
+    <script type="module" src="/js/mfgmaintain.js"></script>
+    <script src="/js/notification.js"></script>
+    <script>
+      NotificationHandler.init({ withSSE: true });
+    </script>
+  </body>
+</html>
