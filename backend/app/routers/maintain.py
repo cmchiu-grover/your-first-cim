@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, UploadFile, File
 from fastapi.responses import JSONResponse
 from typing import List
-from backend.app.db.crud import update_standard_time_value,get_current_active_user, create_notification_and_assign_users, StandardTimeUpdate
+from backend.app.db.crud import update_standard_time_value,get_current_active_user, create_notification_and_assign_users, StandardTimeUpdate, EqpStatusUpdate, update_eqp_status_comment
 from backend.app.db.dbquery import get_all_user_ids
 from backend.app.models.redis_pubsub import publish_update
 from backend.app.models.notification import NotificationCreate
@@ -113,3 +113,48 @@ async def upload_csv_file(request: Request, file: UploadFile = File(...),):
                 "message": f"成功更新 {updated} 筆資料。失敗 {len(failed_rows)} 筆。",
                 }
                 )
+
+@router.put("/api/eqp_status_update")
+async def update_standard_times(data: List[EqpStatusUpdate], request: Request,):
+    current_user = await get_current_active_user(request)
+    print(f"當前使用者: {current_user.get("name")}")
+    print(f"接收到的更新資料: {data}")
+    updated_count = 0
+    for row in data:
+        try:
+            if update_eqp_status_comment(row):
+                updated_count += 1
+            else:
+                return JSONResponse(
+                status_code=400,
+                content={
+                    "error":True,
+                    "message":"更新失敗，找不到符合條件的資料..."
+                    }
+                    )
+
+        except Exception as e:
+            print(f"更新失敗: {e}")
+            return JSONResponse(
+                status_code=500,
+                content={
+                    "error":True,
+                    "message":"伺服器錯誤..."
+                    }
+                    )
+        
+    notif = NotificationCreate(
+        title="機況 comment 更新",
+        message=f"{current_user.get("name")} 更新了 {updated_count} 筆機況 comment。",
+        event_type="eqp_status_updated"
+    )
+
+    user_ids = get_all_user_ids()  
+    create_notification_and_assign_users(notif, user_ids)
+
+    await publish_update(notif.message)
+
+    return {
+        "ok": True,
+        "message": f"成功更新 {updated_count} 筆資料。"
+    }
