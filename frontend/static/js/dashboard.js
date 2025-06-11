@@ -30,7 +30,6 @@ async function checkSignin() {
 
       if (userData.position === "IE") {
         // 這邊放IE維護
-        console.log("放IE維護");
         funcNavUlLiA.href = "/iemaintain";
       } else if (userData.position === "MFG") {
         // 這邊放MFG維護
