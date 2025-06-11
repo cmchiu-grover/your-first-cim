@@ -53,6 +53,14 @@ async def template(request: Request):
 async def template(request: Request):
     return FileResponse("frontend/static/oee.html", media_type="text/html")
 
+@app.get("/eqmaintain", include_in_schema=False)
+async def iemaintain(request: Request):
+    return FileResponse("frontend/static/eqmaintain.html", media_type="text/html")
+
+@app.get("/mfgmaintain", include_in_schema=False)
+async def iemaintain(request: Request):
+    return FileResponse("frontend/static/mfgmaintain.html", media_type="text/html")
+
 @app.get("/template", include_in_schema=False)
 async def template(request: Request):
     return FileResponse("frontend/static/template.html", media_type="text/html")
