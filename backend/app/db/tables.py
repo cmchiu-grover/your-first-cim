@@ -220,6 +220,62 @@ TABLES['gantt_charts'] = (
     "  FOREIGN KEY (`station_id`) REFERENCES `station_info`(`id`)"
     ") ENGINE=InnoDB")
 
+TABLES['final_oee'] = (
+    "CREATE TABLE `final_oee` ("
+    "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  eqp_code VARCHAR(16) NOT NULL,"
+    "  station_name VARCHAR(16) NOT NULL,"
+    "  module_name VARCHAR(16) NOT NULL,"
+    "  year INT NOT NULL,"
+    "  month INT NOT NULL,"
+    "  week VARCHAR(3) NOT NULL,"
+    "  work_date DATE NOT NULL,"
+    "  `oee_rate` DECIMAL(10,2) NOT NULL,"
+    "  `avail_rate` DECIMAL(10,2) NOT NULL,"
+    "  `perf_rate` DECIMAL(10,2) NOT NULL,"
+    "  `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+    "  PRIMARY KEY (`id`),"
+    "  INDEX `idx_work_date` (`work_date`),"
+    "  INDEX `idx_eqp_code` (`eqp_code`),"
+    "  UNIQUE KEY (`eqp_code`, `work_date`)"
+    ") ENGINE=InnoDB")
+
+TABLES['temp_oee'] = (
+    "CREATE TABLE `temp_oee` ("
+    "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  eqp_code VARCHAR(16) NOT NULL,"
+    "  station_name VARCHAR(16) NOT NULL,"
+    "  module_name VARCHAR(16) NOT NULL,"
+    "  year INT NOT NULL,"
+    "  month INT NOT NULL,"
+    "  week VARCHAR(3) NOT NULL,"
+    "  work_date DATE NOT NULL,"
+    "  `oee_rate` DECIMAL(10,2) NOT NULL,"
+    "  `avail_rate` DECIMAL(10,2) NOT NULL,"
+    "  `perf_rate` DECIMAL(10,2) NOT NULL,"
+    "  `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+    "  `updated_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,"
+    "  PRIMARY KEY (`id`),"
+    "  INDEX `idx_work_date` (`work_date`),"
+    "  INDEX `idx_eqp_code` (`eqp_code`),"
+    "  UNIQUE KEY (`eqp_code`, `work_date`)"
+    ") ENGINE=InnoDB")
+
+TABLES['eqp_wip'] = (
+    "CREATE TABLE `eqp_wip` ("
+    "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  `eqp_id` INT(11) NOT NULL,"
+    "  `prod_id` INT(11) NOT NULL,"
+    "  `wip_qty` INT(11) NOT NULL,"
+    "  `work_date` DATE NOT NULL,"
+    "  `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+    "  PRIMARY KEY (`id`),"
+    "  INDEX `idx_eqp_id` (`eqp_id`),"
+    "  INDEX `idx_work_date` (`work_date`),"
+    "  FOREIGN KEY (`prod_id`) REFERENCES `prod_info`(`id`) ON DELETE CASCADE,"
+    "  FOREIGN KEY (`eqp_id`) REFERENCES `eqp_info`(`id`) ON DELETE CASCADE"
+    ") ENGINE=InnoDB")
+
 
 def check_database():
     try:
