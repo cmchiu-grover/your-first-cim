@@ -340,6 +340,38 @@ def insert_gantt_chart_data(station_name: str, work_date: str, image_url: str):
         except:
             pass
 
+class EqpStatusUpdate(BaseModel):
+    id: int
+    comment: str
+
+def update_eqp_status_comment(item):
+    try:
+        cnx = get_connection_pool()
+        cursor = cnx.cursor(dictionary=True)
+
+        cursor.execute(
+            "UPDATE eqp_status SET comment = %s WHERE id = %s",
+            (item.comment, item.id)
+        )
+        cnx.commit()
+        print(f"成功更新 eqp_status {item.id} 的 comment 為：{item.comment} ")
+
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        cnx.rollback()
+    
+    except Exception as e:
+        print(f"發生錯誤{e}")
+
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+            return True
+        except Exception as e:
+            print(f"Error closing connection: {e}")
+            pass
 
 
 
