@@ -179,26 +179,30 @@ def update_standard_time_value(item):
                     JOIN eqp_types e ON e.eqp_type = %s AND e.id = st.eqp_type_id
                     JOIN station_info s ON s.station_name = %s AND s.id = st.station_id
                     """,
-                    (item.prod_code, item.eqp_type, item.station_name)
+                    (item.get("prod_code"), item.get("eqp_type"), item.get("station_name"))
                 )
         result = cursor.fetchone()
         print(f"查詢欲更新的資料的結果: {result}")
         if not result:
-            print(f"找不到符合條件的資料: {item.prod_code}, {item.eqp_type}, {item.station_name}")
+            print(f"找不到符合條件的資料: {item.get("prod_code")}, {item.get("eqp_type")}, {item.get("station_name")}")
             return False
 
         standard_time_id = result["id"]
         cursor.execute(
             "UPDATE standard_times SET standard_time_value = %s WHERE id = %s",
-            (item.stdt, standard_time_id)
+            (item.get("stdt"), standard_time_id)
         )
         cnx.commit()
-        print(f"成功更新標準時間: {item.prod_code}, {item.eqp_type}, {item.station_name} 為 {item.stdt}")
+        print(f"成功更新標準時間: {item.get("prod_code")}, {item.get("eqp_type")}, {item.get("station_name")} {item.get("stdt")}")
 
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         cnx.rollback()
+    
+    except Exception as e:
+        print(f"發生錯誤{e}")
+
     finally:
         try:
             cursor.close()
