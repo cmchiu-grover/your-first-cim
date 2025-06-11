@@ -1,4 +1,5 @@
 from backend.app.db.connect import get_connection_pool
+from datetime import timedelta, date, datetime, time
 
 def insert_text_img_data(msg_text: str, image_url: str):
     try:
@@ -381,3 +382,164 @@ def get_gantt_chart_data(station_name, work_date):
             cnx.close()
         except:
             pass
+
+def get_yesterday_oee_data():
+    
+    now = datetime.now()
+    seven_am_today = datetime.combine(date.today(), time(7, 0))
+
+    if now < seven_am_today:
+        
+        yesterday_work_date = date.today() - timedelta(days=1)
+    else:
+        
+        yesterday_work_date = date.today()
+    
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)  
+
+        base_sql = """
+            SELECT station_name AS Metrics, 
+            AVG(oee_rate) AS oee_rate, 
+            AVG(avail_rate) AS avail_rate, 
+            AVG(perf_rate) AS perf_rate
+            FROM temp_oee
+            WHERE work_date = %s
+            GROUP BY station_name, work_date;
+        """
+
+        cursor.execute(base_sql, (yesterday_work_date,))
+        oee_data = cursor.fetchall()
+        print(yesterday_work_date)
+        return oee_data
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+
+def get_oee_data(work_date):
+    
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)  
+
+        today = date.today()
+        diff_days = abs((today - work_date).days)
+        print(diff_days)
+
+        if diff_days < 4:
+
+            base_sql = """
+                SELECT station_name AS Metrics, 
+                AVG(oee_rate) AS oee_rate, 
+                AVG(avail_rate) AS avail_rate, 
+                AVG(perf_rate) AS perf_rate
+                FROM temp_oee
+                WHERE work_date = %s
+                GROUP BY station_name, work_date;
+            """
+        else:
+
+            base_sql = """
+                SELECT station_name AS Metrics, 
+                AVG(oee_rate) AS oee_rate, 
+                AVG(avail_rate) AS avail_rate, 
+                AVG(perf_rate) AS perf_rate
+                FROM final_oee
+                WHERE work_date = %s
+                GROUP BY station_name, work_date;
+            """
+
+
+        cursor.execute(base_sql, (work_date,))
+        oee_data = cursor.fetchall()
+
+        return oee_data
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+
+def get_station_oee_data(station_name, work_date):
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)  
+
+        today = date.today()
+        diff_days = abs((today - work_date).days)
+        print(diff_days)
+
+        if diff_days < 4:
+
+            base_sql = """
+                SELECT station_name AS Metrics, 
+                AVG(oee_rate) AS oee_rate, 
+                AVG(avail_rate) AS avail_rate, 
+                AVG(perf_rate) AS perf_rate
+                FROM temp_oee
+                WHERE work_date = %s
+                AND station_name = %s
+                GROUP BY station_name, work_date
+                UNION ALL
+                SELECT eqp_code AS Metrics, 
+                oee_rate, 
+                avail_rate, 
+                perf_rate
+                FROM temp_oee
+                WHERE work_date = %s
+                AND station_name = %s;
+            """
+        else:
+
+            base_sql = """
+                SELECT station_name AS Metrics, 
+                AVG(oee_rate) AS oee_rate, 
+                AVG(avail_rate) AS avail_rate, 
+                AVG(perf_rate) AS perf_rate
+                FROM final_oee
+                WHERE work_date = %s
+                AND station_name = %s
+                GROUP BY station_name, work_date
+                UNION ALL
+                SELECT eqp_code AS Metrics, 
+                oee_rate, 
+                avail_rate, 
+                perf_rate
+                FROM final_oee
+                WHERE work_date = %s
+                AND station_name = %s;
+            """
+
+
+        cursor.execute(base_sql, (work_date, station_name, work_date, station_name))
+        oee_data = cursor.fetchall()
+
+        return oee_data
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+        
+            
