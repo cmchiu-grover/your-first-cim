@@ -38,3 +38,29 @@ updateCSVFileButton.addEventListener("click", async (e) => {
     updateCSVFileButton.textContent = "送出檔案";
   }
 });
+
+const downloadCSVButton = document.getElementById("downCSVButton");
+downloadCSVButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+  downloadCSVButton.disabled = true;
+  downloadCSVButton.textContent = "下載中...";
+
+  try {
+    function downloadCSV() {
+      const url = "https://d1129enkv2st0e.cloudfront.net/example_csv.csv";
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "example.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+    downloadCSV();
+  } catch (err) {
+    console.error("錯誤：", err);
+    alert("發生錯誤，請稍後再試！");
+  } finally {
+    downloadCSVButton.disabled = false;
+    downloadCSVButton.textContent = "下載 csv example";
+  }
+});
