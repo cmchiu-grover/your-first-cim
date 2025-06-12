@@ -482,13 +482,10 @@ def get_temp_oee_data(work_date):
         cursor = cnx.cursor(dictionary=True)  
 
         base_sql = """
-            SELECT station_name AS Metrics, 
-            AVG(oee_rate) AS oee_rate, 
-            AVG(avail_rate) AS avail_rate, 
-            AVG(perf_rate) AS perf_rate
-            FROM temp_oee
-            WHERE work_date = %s
-            GROUP BY station_name, work_date;
+        SELECT tp.*, ei.id AS eqp_id
+        FROM temp_oee AS tp
+        INNER JOIN eqp_info AS ei ON tp.eqp_code = ei.eqp_code
+        WHERE work_date = %s;
         """
 
         cursor.execute(base_sql, (work_date,))
