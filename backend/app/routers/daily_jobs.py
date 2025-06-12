@@ -33,7 +33,7 @@ def start_daily_jobs():
 
     scheduler.add_job(
         generate_temp_oee,
-        CronTrigger(hour=23, minute=26),
+        CronTrigger(hour=23, minute=28),
         id="generate_temp_oee_job",
         replace_existing=True
     )
