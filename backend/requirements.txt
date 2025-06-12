@@ -13,5 +13,5 @@ matplotlib==3.8.4
 sqlalchemy==2.0.29
 redis==5.0.3
 pydantic==2.7.1
-PyJWT
-apscheduler
+PyJWT==2.8.0
+APScheduler==3.10.4
