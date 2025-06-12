@@ -12,35 +12,35 @@ def start_daily_jobs():
 
     scheduler.add_job(
         generate_eqp_status,
-        CronTrigger(hour=20, minute=30),
+        CronTrigger(hour=6, minute=30),
         id="generate_eqp_status_job",
         replace_existing=True
     )
 
     scheduler.add_job(
         generate_gantt_chart,
-        CronTrigger(hour=20, minute=35),
+        CronTrigger(hour=20, minute=30),
         id="generate_gantt_chart_job",
         replace_existing=True
     )
 
     scheduler.add_job(
         generate_eqp_wip,
-        CronTrigger(hour=20, minute=40),
+        CronTrigger(hour=20, minute=35),
         id="generate_eqp_wip_job",
         replace_existing=True
     )
 
     scheduler.add_job(
         generate_temp_oee,
-        CronTrigger(hour=20, minute=45),
+        CronTrigger(hour=20, minute=40),
         id="generate_temp_oee_job",
         replace_existing=True
     )
 
     scheduler.add_job(
         process_oee_data,
-        CronTrigger(hour=20, minute=50),
+        CronTrigger(hour=20, minute=45),
         id="daily_oee_job",
         replace_existing=True
     )
