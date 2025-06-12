@@ -91,6 +91,7 @@ def generate_insert_eqp_info_sql(eq_id, work_date, start_of_window, end_of_windo
     return insert_statement
 
 def generate_eqp_status():
+    print("開始產生機況資料")
     eq_ids = [
     [2,0.983],
     [3,0.983],

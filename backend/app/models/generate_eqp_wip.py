@@ -4,13 +4,13 @@ import json
 import math
 import datetime
 from datetime import timedelta
-
 import random
 import json
 import math
 import datetime
 from datetime import timedelta, datetime
 from zoneinfo import ZoneInfo
+import os
 
 def query_avail_mins(eqp_code, work_date):
     try:
@@ -144,8 +144,11 @@ def insert_eqp_wip(eqp_code, work_date, product_code, insert_qty):
             pass
 
 def generate_eqp_wip():
+    print("開始產生 WIP 資料")
+    base_dir = os.path.dirname(__file__)
+    json_path = os.path.join(base_dir, 'standard_qty.json')
     # 載入標準工時 JSON 檔
-    with open('standard_qty.json', 'r', encoding='utf-8') as jsonfile:
+    with open(json_path, 'r', encoding='utf-8') as jsonfile:
         eqp_data_list = json.load(jsonfile)
 
     tz = ZoneInfo("Asia/Taipei")
