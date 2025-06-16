@@ -17,6 +17,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <meta name="author" content="Grover Chiu" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
   </head>
   <body>
     <main>
@@ -41,9 +47,7 @@
                 "
               ></span>
             </li>
-            <li id="list_button">
-              <i class="material-icons">list</i>
-            </li>
+
             <li class="li_signout_button">
               <p id="signout_button">登出</p>
             </li>
@@ -79,11 +83,11 @@
 
             <!-- 概覽區塊 -->
             <div class="dashboard_summary">
-              <h2>Yesterday's OEE</h2>
+              <h2 id="dashboardOEETile"></h2>
               <table id="performanceTable" class="dashboard-oee-table">
                 <thead>
                   <tr>
-                    <th>Metrics</th>
+                    <th>站點</th>
                     <th>CPU</th>
                     <th>RAM</th>
                     <th>ROM</th>
@@ -97,7 +101,7 @@
                 </thead>
                 <tbody>
                   <tr id="oeeRow">
-                    <td>OEE Rate(%)</td>
+                    <td>OEE(%)</td>
                     <td class="editable" data-station="CPU"></td>
                     <td class="editable" data-station="RAM"></td>
                     <td class="editable" data-station="ROM"></td>
@@ -109,7 +113,7 @@
                     <td class="editable" data-station="PKG"></td>
                   </tr>
                   <tr id="availRow">
-                    <td>Availability Rate(%)</td>
+                    <td>稼動率(%)</td>
                     <td class="editable" data-station="CPU"></td>
                     <td class="editable" data-station="RAM"></td>
                     <td class="editable" data-station="ROM"></td>
@@ -121,7 +125,7 @@
                     <td class="editable" data-station="PKG"></td>
                   </tr>
                   <tr id="perfRow">
-                    <td>Performance Rate(%)</td>
+                    <td>作業效率(%)</td>
                     <td class="editable" data-station="CPU"></td>
                     <td class="editable" data-station="RAM"></td>
                     <td class="editable" data-station="ROM"></td>
@@ -135,6 +139,29 @@
                 </tbody>
               </table>
             </div>
+            <hr style="margin-top: 20px" />
+
+            <div class="dashboard-oee-knowledge dashboard-welcome">
+              <h1 class="function_title">OEE 基礎知識</h1>
+
+              <a
+                class="welcome_text"
+                href="https://en.wikipedia.org/wiki/Overall_equipment_effectiveness"
+                >詳細連結請點此</a
+              >
+            </div>
+            <div class="oee-knowledge" style="width: 500px">
+              <p>OEE 相關公式：</p>
+              \[ \begin{align*} OEE &= 稼動率 \times 作業效率 \\ 稼動率 &=
+              稼動時間 \div 負荷時間 \\ 作業效率 &= 設計生產時間 \div 稼動時間
+              \end{align*} \]
+            </div>
+            <p>基本的計算以 1 天(24小時)為計算基礎。</p>
+            <p>稼動時間：機台稼動的時間。</p>
+            <p>負荷時間：機台設定要稼動的時間，本專案設定為 24 小時。</p>
+            <p>
+              設計生產時間：機台生產時被設計的所需時間，由 IE 工時計算而得。
+            </p>
           </div>
         </article>
       </section>
