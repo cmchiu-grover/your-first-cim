@@ -388,6 +388,7 @@ body main section article .article_area {
   border-radius: 5px;
   height: 100%;
   padding: 20px 20px 20px 30px;
+  overflow-y: scroll;
 }
 body main section article .article_area .dashboard-welcome {
   display: flex;
@@ -424,6 +425,9 @@ body main section article .article_area .dashboard_summary table.dashboard-oee-t
 body main section article .article_area .oee-table-div table.dashboard-oee-table td.low-value {
   color: red;
   font-weight: bold;
+}
+body main section article .article_area .oee-knowledge {
+  color: white;
 }
 body main section article .article_area .oee-table-div {
   width: 100%;
