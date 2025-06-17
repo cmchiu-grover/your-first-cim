@@ -42,9 +42,6 @@
               ></span>
             </li>
 
-            <li id="list_button">
-              <i class="material-icons">list</i>
-            </li>
             <li class="li_signout_button">
               <p id="signout_button">登出</p>
             </li>
@@ -61,19 +58,31 @@
             <li class="function_nav_ul_li">
               <a href="/eqganttchart">機況圖</a>
             </li>
+            <li class="function_nav_ul_li">
+              <a href="/wipquery">在製品查詢</a>
+            </li>
           </ul>
         </nav>
 
         <article>
           <div class="article_area">
-            <h1 class="function_title">IE 維護</h1>
+            <div class="dashboard-welcome">
+              <h1 class="function_title">IE 維護</h1>
+              <p>
+                注意：維護 IE 工時可能會影響設計生產時間，導致影響<span
+                  class="spot-word"
+                  >作業效率</span
+                >，最終影響 OEE。
+              </p>
+            </div>
 
             <hr />
             <div class="ie-maintain-update-button-container">
               <h2 class="ie-maintain-update-h2">
                 使用 csv 檔案上傳 IE 維護資料
               </h2>
-              <button id="downCSVButton">下載 csv example</button>
+
+              <button id="downCSVButton">下載 example.csv</button>
               <button
                 type="submit"
                 class="update_csv_file_btn"
@@ -82,6 +91,10 @@
                 送出檔案
               </button>
             </div>
+            <p style="margin: -10px 0 10px 10px">
+              <span class="spot-word">體驗更新作業效率</span>，請先下載
+              example.csv，並更改 standard_time_value 的值，然後送出檔案。
+            </p>
             <form id="csvFileForm" class="csvFileForm">
               <input
                 class="update_csv_file_input"
