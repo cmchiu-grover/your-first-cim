@@ -148,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     results.forEach((row) => {
       const columns = [
-        "",
         row.standard_time_id,
         row.prod_code,
         row.prod_name,
@@ -161,13 +160,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ];
       const parent_div = document.createElement("div");
       parent_div.classList.add("ie_query_result_maintain_div");
-      for (let i = 0; i < 10; i++) {
-        if (i === 0) {
-          const input_container = document.createElement("input");
-          input_container.type = "checkbox";
-          input_container.className = "ie_query_checkbox";
-          parent_div.appendChild(input_container);
-        } else if (i === 7) {
+      for (let i = 0; i < 9; i++) {
+        if (i === 7) {
           const input_container = document.createElement("input");
           input_container.type = "text";
           input_container.className = "ie_maintain_input";
