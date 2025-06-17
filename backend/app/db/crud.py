@@ -225,7 +225,7 @@ def decode_jwt_token(token: str):
         print(f"解碼 Token 時發生錯誤: {e}")
         return None
        
-def create_notification_and_assign_users(notification, user_ids):
+async def create_notification_and_assign_users(notification, user_ids):
     query_notif = """
         INSERT INTO notifications (title, message, event_type)
         VALUES (%s, %s, %s)
@@ -259,6 +259,35 @@ def create_notification_and_assign_users(notification, user_ids):
         except Exception as e:
             print(f"create_notification_and_assign_users Error closing connection: {e}")
             pass
+
+async def assign_posting_user(user_id, notif_id):
+
+    assign_insert = """
+        INSERT INTO user_notifications (user_id, notification_id, is_read)
+        VALUES (%s, %s, 1)
+    """
+    try:
+        cxn = get_connection_pool()
+        cursor = cxn.cursor()
+
+        cursor.execute(assign_insert, (user_id, notif_id))
+        cxn.commit()
+
+    except mysql.connector.Error as err:
+        print(f"create_notification_and_assign_users() Error: {err}")
+        cxn.rollback()
+    
+    except Exception as e:
+        print(f"create_notification_and_assign_users() Unexpected error: {e}")
+        cxn.rollback()
+    finally:
+        try:
+            cursor.close()
+            cxn.close()
+        except Exception as e:
+            print(f"create_notification_and_assign_users Error closing connection: {e}")
+            pass
+
 
 def get_unread_notification_status(user_id):
     query = """
@@ -340,6 +369,9 @@ def insert_gantt_chart_data(station_name: str, work_date: str, image_url: str):
 
 class EqpStatusUpdate(BaseModel):
     id: int
+    work_date: date
+    station_name: str
+    eqp_code: str
     comment: str
 
 def update_eqp_status_comment(item):
