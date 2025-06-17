@@ -56,6 +56,22 @@ async function checkSignin() {
         funcNavUlDiv.appendChild(funcNavUlDivA1);
         funcNavUlDiv.appendChild(funcNavUlDivA2);
         funcNavUl.appendChild(funcNavUlDiv);
+
+        const eqGanttLi = [...funcNavUl.children].find(
+          (li) => li.textContent.trim() === "機況圖"
+        );
+
+        if (eqGanttLi) {
+          const eqStatusLi = document.createElement("li");
+          eqStatusLi.className = "function_nav_ul_li";
+
+          const eqStatusA = document.createElement("a");
+          eqStatusA.href = "eqpstatusquery";
+          eqStatusA.textContent = "機況查詢";
+
+          eqStatusLi.appendChild(eqStatusA);
+          eqGanttLi.insertAdjacentElement("afterend", eqStatusLi);
+        }
       } else {
         // 這邊放EQ維護
         window.alert("權限不足，無法進入此頁面！");

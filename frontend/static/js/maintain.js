@@ -58,6 +58,22 @@ async function checkSignin() {
         funcNavUlDiv.appendChild(funcNavUlDivA1);
         funcNavUlDiv.appendChild(funcNavUlDivA2);
         funcNavUl.appendChild(funcNavUlDiv);
+
+        const eqGanttLi = [...funcNavUl.children].find(
+          (li) => li.textContent.trim() === "機況圖"
+        );
+
+        if (eqGanttLi) {
+          const eqStatusLi = document.createElement("li");
+          eqStatusLi.className = "function_nav_ul_li";
+
+          const eqStatusA = document.createElement("a");
+          eqStatusA.href = "eqpstatusquery";
+          eqStatusA.textContent = "機況查詢";
+
+          eqStatusLi.appendChild(eqStatusA);
+          eqGanttLi.insertAdjacentElement("afterend", eqStatusLi);
+        }
       } else if (userData.position === "MFG") {
         // 這邊放MFG維護
         funcNavUlLiA.href = "/mfgmaintain";
