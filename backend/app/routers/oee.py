@@ -20,6 +20,7 @@ async def api_get_yesterday_oee_data(
             status_code=200,
             content={
                 "ok":True,
+                "date": yesterday_oee_data[0],
                 "data":[
                 {
                     "metrics": item["Metrics"],
@@ -27,7 +28,7 @@ async def api_get_yesterday_oee_data(
                     "avail_rate": float(item["avail_rate"]),
                     "perf_rate": float(item["perf_rate"]),
                 }
-                for item in yesterday_oee_data
+                for item in yesterday_oee_data[1]
                 ]
                 }
                 )
