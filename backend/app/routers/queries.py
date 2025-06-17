@@ -167,7 +167,7 @@ async def query_eqp_status_eq(
             "nextPage": next_page,
             "data": [
                 {   
-                    "id": item["id"],
+                    "id": item["event_id"],
                     "work_date": item["work_date"].strftime('%Y-%m-%d'),
                     "module_name": item["module_name"],
                     "station_name": item["station_name"],
@@ -275,7 +275,7 @@ async def query_eqp_wip(
             "nextPage": next_page,
             "data": [
                 {   
-                    "id": item["id"],
+                    "id": item["event_id"],
                     "work_date": item["work_date"].strftime('%Y-%m-%d'),
                     "module_name": item["module_name"],
                     "station_name": item["station_name"],
