@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="preload"
+      href="/css/style.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <meta name="author" content="Grover Chiu" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="web_title" href="/dashboard">Your First CIM</a>
+        <nav class="header_nav">
+          <ul>
+            <li class="li_username">
+              <p id="username" class="p_username"></p>
+            </li>
+            <li id="notifications-li">
+              <i id="notifications" class="material-icons">notifications</i>
+              <span
+                id="updateDot"
+                style="
+                  display: none;
+                  background: red;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  margin-left: 5px;
+                "
+              ></span>
+            </li>
+
+            <li class="li_signout_button">
+              <p id="signout_button">登出</p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <hr class="first" />
+
+      <section>
+        <nav class="function_nav">
+          <ul id="function_nav_ul" class="function_nav_ul">
+            <li class="function_nav_ul_li"><a href="oee">OEE</a></li>
+
+            <li class="function_nav_ul_li">
+              <a href="/eqganttchart">機況圖</a>
+            </li>
+            <li class="function_nav_ul_li">
+              <a href="/wipquery">在製品查詢</a>
+            </li>
+          </ul>
+        </nav>
+
+        <article>
+          <div class="article_area">
+            <h1 class="function_title">機況查詢</h1>
+
+            <hr />
+
+            <form id="eqp-status-query-form" class="eqp-status-query-form">
+              <div class="eqp-status-query-parent-div">
+                <div class="query-form-input-div">
+                  <label class="query-form-label" for="work_date"
+                    >work_date</label
+                  >
+                  <input
+                    class="work-date-select"
+                    type="date"
+                    name="work_date"
+                  />
+                </div>
+                <div class="query-form-input-div">
+                  <label class="query-form-label" for="module_name"
+                    >module_name</label
+                  >
+                  <select class="station-name-select" name="module_name">
+                    <option value="" disabled selected hidden>
+                      請選擇區域
+                    </option>
+                    <option value="FE">FE</option>
+                    <option value="ME">ME</option>
+                    <option value="BE">BE</option>
+                  </select>
+                </div>
+                <div class="query-form-input-div">
+                  <label class="query-form-label" for="station_name"
+                    >station_name</label
+                  >
+                  <select class="station-name-select" name="station_name">
+                    <option value="" disabled selected hidden>
+                      請選擇站點
+                    </option>
+                    <option value="CPU">CPU</option>
+                    <option value="RAM">RAM</option>
+                    <option value="ROM">ROM</option>
+                    <option value="GPU">GPU</option>
+                    <option value="PSU">PSU</option>
+                    <option value="CLS">CLS</option>
+                    <option value="CWG">CWG</option>
+                    <option value="CCA">CCA</option>
+                    <option value="PKG">PKG</option>
+                  </select>
+                </div>
+                <div class="query-form-input-div">
+                  <label class="query-form-label" for="eqp_type"
+                    >eqp_type</label
+                  >
+                  <input
+                    class="query-form-input"
+                    type="text"
+                    name="eqp_type"
+                    placeholder="請輸入設備類型"
+                  />
+                </div>
+                <div class="query-form-input-div">
+                  <label class="query-form-label" for="eqp_code"
+                    >eqp_code</label
+                  >
+                  <input
+                    class="query-form-input"
+                    type="text"
+                    name="eqp_code"
+                    placeholder="請輸入設備號碼"
+                  />
+                </div>
+
+                <div class="query-form-input-div query-form-input-div-button">
+                  <button
+                    type="submit"
+                    class="query-button"
+                    id="eqp-status-query-button"
+                  >
+                    查詢
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div id="eqp-status-query-result-pagenumber">
+              <!-- 這邊放搜尋結果的頁碼 -->
+            </div>
+            <div id="eqp-status-query-result-area" class="query-result-area">
+              <!-- 這邊放搜尋結果，一頁呈現10筆 -->
+
+              <form
+                class="query-result-form"
+                id="eqp-status-query-result-form"
+                autocomplete="off"
+              >
+                <div class="query_items_div">
+                  <h3>id</h3>
+                  <h3>work_date</h3>
+                  <h3>module_name</h3>
+                  <h3>station_name</h3>
+                  <h3>eqp_type</h3>
+                  <h3>eqp_code</h3>
+                  <h3>start_time</h3>
+                  <h3>end_time</h3>
+                  <h3>duration(mins)</h3>
+                  <h3>status</h3>
+                  <h3>comment</h3>
+                </div>
+              </form>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>Your First CIM App</p>
+      </footer>
+    </main>
+    <script type="module" src="/js/eqpstatusquery.js"></script>
+    <script src="/js/notification.js"></script>
+    <script>
+      NotificationHandler.init({ withSSE: true });
+    </script>
+  </body>
+</html>
