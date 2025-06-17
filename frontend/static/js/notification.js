@@ -74,22 +74,43 @@ const NotificationHandler = (function () {
     }
   }
 
-  function init(options = { withSSE: true }) {
+  let currentUserId = null;
+
+  async function init(options = { withSSE: true }) {
     fetchUnreadNotifications();
     setupRedDotClick();
 
-    document.addEventListener("visibilitychange", async () => {
-      if (document.visibilityState === "visible") {
-        await fetchUnreadNotifications();
-      }
-    });
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      const response = await fetch("/api/user/auth", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (options.withSSE) {
-      const sse = new EventSource("/sse/standard_time");
-      sse.onmessage = function (event) {
-        console.log("收到 SSE 通知：", event.data);
+      const result = await response.json();
+      const currentUserId = result.data.user_id;
+
+      document.addEventListener("visibilitychange", async () => {
+        if (document.visibilityState === "visible") {
+          await fetchUnreadNotifications();
+        }
+      });
+
+      if (options.withSSE && currentUserId) {
+        const sse = new EventSource("/sse/standard_time");
+        sse.onmessage = async function (event) {
+          console.log("收到 SSE 通知：", event.data);
+          const eventJson = JSON.parse(event.data);
+
+          if (parseInt(currentUserId) === parseInt(eventJson.user_id)) {
+            // 自己發起的通知，不開啟紅點
+            return;
+          }
+        };
+
         showRedDot();
-      };
+      }
     }
   }
 
