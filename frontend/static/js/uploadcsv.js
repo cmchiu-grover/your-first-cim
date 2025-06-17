@@ -47,7 +47,7 @@ downloadCSVButton.addEventListener("click", async (e) => {
 
   try {
     function downloadCSV() {
-      const url = "https://d1129enkv2st0e.cloudfront.net/example_csv.csv";
+      const url = "https://d1129enkv2st0e.cloudfront.net/example.csv";
       const a = document.createElement("a");
       a.href = url;
       a.download = "example.csv";
