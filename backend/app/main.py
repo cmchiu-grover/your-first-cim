@@ -74,6 +74,10 @@ async def mfgmaintain(request: Request):
 async def mfgmaintain(request: Request):
     return FileResponse("frontend/static/wipquery.html", media_type="text/html")
 
+@app.get("/eqpstatusquery", include_in_schema=False)
+async def mfgmaintain(request: Request):
+    return FileResponse("frontend/static/eqpstatusquery.html", media_type="text/html")
+
 @app.get("/template", include_in_schema=False)
 async def template(request: Request):
     return FileResponse("frontend/static/template.html", media_type="text/html")
