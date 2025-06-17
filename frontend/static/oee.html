@@ -41,9 +41,7 @@
                 "
               ></span>
             </li>
-            <li id="list_button">
-              <i class="material-icons">list</i>
-            </li>
+
             <li class="li_signout_button">
               <p id="signout_button">登出</p>
             </li>
@@ -63,6 +61,9 @@
             </li>
             <li class="function_nav_ul_li eq_gantt_chart">
               <a href="eqganttchart">機況圖</a>
+            </li>
+            <li class="function_nav_ul_li">
+              <a href="/wipquery">在製品查詢</a>
             </li>
           </ul>
         </nav>
@@ -95,16 +96,16 @@
                 </div>
               </div>
               <div class="">
-                <p>目前查詢僅支持查詢 work_date：2025-05-01 ~ 2025-06-10</p>
+                <p id="dateInfo1"></p>
               </div>
-              <h2 id="oee-table-title">All Station OEE Table</h2>
+              <h2 id="oee-table-title">站點 OEE 資料</h2>
             </form>
 
             <div class="oee-table-div">
               <table id="performanceTable" class="dashboard-oee-table">
                 <thead>
                   <tr>
-                    <th>Metrics</th>
+                    <th>站點</th>
                     <th>CPU</th>
                     <th>RAM</th>
                     <th>ROM</th>
@@ -118,7 +119,7 @@
                 </thead>
                 <tbody>
                   <tr id="oeeRow">
-                    <td>OEE Rate(%)</td>
+                    <td>OEE(%)</td>
                     <td class="editable" data-station="CPU"></td>
                     <td class="editable" data-station="RAM"></td>
                     <td class="editable" data-station="ROM"></td>
@@ -130,7 +131,7 @@
                     <td class="editable" data-station="PKG"></td>
                   </tr>
                   <tr id="availRow">
-                    <td>Availability Rate(%)</td>
+                    <td>稼動率(%)</td>
                     <td class="editable" data-station="CPU"></td>
                     <td class="editable" data-station="RAM"></td>
                     <td class="editable" data-station="ROM"></td>
@@ -142,7 +143,7 @@
                     <td class="editable" data-station="PKG"></td>
                   </tr>
                   <tr id="perfRow">
-                    <td>Performance Rate(%)</td>
+                    <td>作業效率(%)</td>
                     <td class="editable" data-station="CPU"></td>
                     <td class="editable" data-station="RAM"></td>
                     <td class="editable" data-station="ROM"></td>
@@ -205,27 +206,27 @@
                 </div>
               </div>
               <div class="">
-                <p>目前查詢僅支持查詢 work_date：2025-05-01 ~ 2025-06-10</p>
+                <p id="dateInfo2"></p>
               </div>
-              <h2 id="eqp-oee-table-title">Station & Equipments OEE Table</h2>
+              <h2 id="eqp-oee-table-title">站點/機台 OEE 資料</h2>
             </form>
 
             <div class="oee-table-div">
               <table id="stationOEETable" class="dashboard-oee-table">
                 <thead>
                   <tr>
-                    <th>Metrics</th>
+                    <th>站點/機台</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr id="eqp-oee-Row">
-                    <td>OEE Rate(%)</td>
+                    <td>OEE(%)</td>
                   </tr>
                   <tr id="eqp-avail-Row">
-                    <td>Availability Rate(%)</td>
+                    <td>稼動率(%)</td>
                   </tr>
                   <tr id="eqp-perf-Row">
-                    <td>Performance Rate(%)</td>
+                    <td>作業效率(%)</td>
                   </tr>
                 </tbody>
               </table>
