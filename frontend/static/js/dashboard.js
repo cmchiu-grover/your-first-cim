@@ -160,6 +160,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     const data = await response.json();
     console.log("查詢結果:", data);
     updateOEETable(data);
+    const dashboardOEETitle = document.getElementById("dashboardOEETile");
+
+    dashboardOEETitle.textContent = `昨日（${data.date}）站點 OEE 資料`;
   } catch (error) {
     console.error("查詢失敗:", error);
 

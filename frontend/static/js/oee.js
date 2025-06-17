@@ -13,17 +13,13 @@ async function checkSignin() {
 
     const result = await response.json();
     const userData = result.data;
-    console.log(userData.position);
 
     if (userData) {
       const userName = userData.name;
       userNameP.textContent = `Hi ${userName}`;
-      //   userNameStrong.textContent = `${userName}`;
 
       let funcNavUlLi = document.createElement("li");
       funcNavUlLi.className = "function_nav_ul_li";
-
-      console.log(userData.position);
 
       let funcNavUlLiA = document.createElement("a");
       funcNavUlLiA.textContent = `${userData.position} 維護`;
@@ -48,8 +44,27 @@ async function checkSignin() {
   }
 }
 
+async function setYesterdayDateText(elementId) {
+  const now = new Date();
+  const utc8Time = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+  const yesterday = new Date(utc8Time);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const yyyy = yesterday.getUTCFullYear();
+  const mm = String(yesterday.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(yesterday.getUTCDate()).padStart(2, "0");
+  const formattedDate = `${yyyy}/${mm}/${dd}`;
+
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.textContent = `僅支持查詢 work_date：2025/05/01 ~ ${formattedDate}`;
+  }
+}
+
 async function main() {
   await checkSignin();
+  await setYesterdayDateText("dateInfo1");
+  await setYesterdayDateText("dateInfo2");
 }
 
 main();
@@ -196,10 +211,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const availRow = document.getElementById("eqp-avail-Row");
         const perfRow = document.getElementById("eqp-perf-Row");
 
-        headerRow.innerHTML = "<th>Metrics</th>";
-        oeeRow.innerHTML = "<td>OEE Rate(%)</td>";
-        availRow.innerHTML = "<td>Availability Rate(%)</td>";
-        perfRow.innerHTML = "<td>Performance Rate(%)</td>";
+        headerRow.innerHTML = "<th>站點/機台</th>";
+        oeeRow.innerHTML = "<td>OEE(%)</td>";
+        availRow.innerHTML = "<td>稼動率(%)</td>";
+        perfRow.innerHTML = "<td>作業效率(%)</td>";
 
         apiData.data.forEach((item) => {
           const station = item.metrics;

@@ -49,8 +49,26 @@ async function checkSignin() {
   }
 }
 
+async function setYesterdayDateText(elementId) {
+  const now = new Date();
+  const utc8Time = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+  const yesterday = new Date(utc8Time);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const yyyy = yesterday.getUTCFullYear();
+  const mm = String(yesterday.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(yesterday.getUTCDate()).padStart(2, "0");
+  const formattedDate = `${yyyy}/${mm}/${dd}`;
+
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.textContent = `僅支持查詢 work_date：2025/05/01 ~ ${formattedDate}`;
+  }
+}
+
 async function main() {
   await checkSignin();
+  await setYesterdayDateText("dateInfo");
   // document.getElementById("eq_gantt_chart_img").src = "/api/chart/eqganttchart";
 }
 
