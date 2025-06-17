@@ -70,6 +70,10 @@ async def eqmaintain(request: Request):
 async def mfgmaintain(request: Request):
     return FileResponse("frontend/static/mfgmaintain.html", media_type="text/html")
 
+@app.get("/wipquery", include_in_schema=False)
+async def mfgmaintain(request: Request):
+    return FileResponse("frontend/static/wipquery.html", media_type="text/html")
+
 @app.get("/template", include_in_schema=False)
 async def template(request: Request):
     return FileResponse("frontend/static/template.html", media_type="text/html")
