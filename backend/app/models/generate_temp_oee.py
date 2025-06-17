@@ -168,7 +168,7 @@ def insert_to_oee(eqp_id, eqp_code, station_name, work_date, oee_rate, avail_rat
         except:
             pass
 
-def insert_to_temp_oee(eqp_code, station_name, work_date, oee_rate, avail_rate, perf_rate):
+def insert_to_temp_oee(eqp_id,eqp_code, station_name, work_date, oee_rate, avail_rate, perf_rate):
     try:
         cnx = get_connection_pool()  
         cursor = cnx.cursor(dictionary=True)
@@ -191,6 +191,7 @@ def insert_to_temp_oee(eqp_code, station_name, work_date, oee_rate, avail_rate, 
         insert_query = """
             INSERT INTO `temp_oee`
             (
+                `eqp_id`,
                 `eqp_code`,
                 `station_name`,
                 `module_name`,
@@ -202,9 +203,9 @@ def insert_to_temp_oee(eqp_code, station_name, work_date, oee_rate, avail_rate, 
                 `avail_rate`,
                 `perf_rate`
                 )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-        cursor.execute(insert_query, (eqp_code, station_name, module_dict.get(station_name), date_info.get("year"), date_info.get("month"), date_info.get("week_number"), work_date, oee_rate, avail_rate, perf_rate))
+        cursor.execute(insert_query, (eqp_id, eqp_code, station_name, module_dict.get(station_name), date_info.get("year"), date_info.get("month"), date_info.get("week_number"), work_date, oee_rate, avail_rate, perf_rate))
         cnx.commit()
 
     except Exception as e:
@@ -245,6 +246,6 @@ def generate_temp_oee():
         oee_rate = round(float(avail_rate) * perf_rate / 100 ,2)
 
         
-        insert_to_temp_oee(eqp_code, station_name, work_date, oee_rate, avail_rate, perf_rate)
+        insert_to_temp_oee(eqp_id, eqp_code, station_name, work_date, oee_rate, avail_rate, perf_rate)
         print(f"{eqp_code} 在 {work_date} 的 OEE 為 {oee_rate}%，AR 為 {avail_rate}%，PR 為{perf_rate}%")
 
