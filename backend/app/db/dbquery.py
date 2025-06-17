@@ -607,7 +607,7 @@ def query_eq_status_eq(
         """
 
         count_sql = """
-            SELECT COUNT(es.id)
+            SELECT COUNT(es.id) AS total
             FROM
                 eqp_status AS es
             INNER JOIN eqp_info ei ON es.eqp_id = ei.id
@@ -625,16 +625,16 @@ def query_eq_status_eq(
             params["work_date"] = work_date
         if module_name:
             conditions.append("si.module_name = %s")
-            params["module_name"] = f"%{module_name}%"
+            params["module_name"] = f"{module_name}"
         if station_name:
             conditions.append("si.station_name = %s")
-            params["station_name"] = f"%{station_name}%"
+            params["station_name"] = f"{station_name}"
         if eqp_type:
             conditions.append("et.eqp_type = %s")
-            params["eqp_type"] = f"%{eqp_type}%"
+            params["eqp_type"] = f"{eqp_type}"
         if eqp_code:
             conditions.append("ei.eqp_code = %s")
-            params["eqp_code"] = f"%{eqp_code}%"
+            params["eqp_code"] = f"{eqp_code}"
 
 
         if conditions:
@@ -643,7 +643,7 @@ def query_eq_status_eq(
 
         
         cursor.execute(count_sql, tuple(params.values()))
-        total_records = cursor.fetchone()['COUNT(es.id)']
+        total_records = cursor.fetchone()['total']
         total_pages = (total_records + page_size - 1) // page_size
         
         
@@ -705,7 +705,7 @@ def query_eq_status_mfg(
         """
 
         count_sql = """
-            SELECT COUNT(es.id)
+            SELECT COUNT(es.id) AS total
             FROM
                 eqp_status AS es
             INNER JOIN eqp_info ei ON es.eqp_id = ei.id
@@ -741,7 +741,7 @@ def query_eq_status_mfg(
 
         
         cursor.execute(count_sql, tuple(params.values()))
-        total_records = cursor.fetchone()['COUNT(es.id)']
+        total_records = cursor.fetchone()['total']
         total_pages = (total_records + page_size - 1) // page_size
         
         
