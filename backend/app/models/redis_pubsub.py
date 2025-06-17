@@ -8,9 +8,10 @@ r = redis.Redis(
     decode_responses=True
 )
 
-async def publish_update(message: str):
+async def publish_update(message: str, user_id: int):
     print(f"開始 Publishing update to Redis: {message}")
     await r.publish("standard_time_channel", json.dumps({
         "event": "standard_time_updated",
-        "message": message
+        "message": message,
+        "user_id": user_id
     }))
