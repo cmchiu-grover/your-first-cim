@@ -453,3 +453,61 @@ def delete_temp_oee_data(data: list):
             pass
 
 
+def update_temp_oee_by_eqp_id(eqp_id, work_date, tobe_oee_rate, tobe_perf_rate):
+    try:
+        cnx = get_connection_pool()
+        cursor = cnx.cursor(dictionary=True)
+
+        query_sql = """
+            SELECT id, eqp_code, oee_rate, perf_rate FROM temp_oee
+            WHERE eqp_id = %s AND work_date = %s      
+            """
+        print("開始執行 query_sql")
+        cursor.execute(
+            query_sql,
+            (eqp_id, work_date)
+        )
+
+        asis_temp_oee_data = cursor.fetchone()
+        print("結束執行 query_sql")
+        print(f"asis_temp_oee_data: {asis_temp_oee_data}")
+        asis_oee_rate = float(asis_temp_oee_data.get("oee_rate"))
+        asis_perf_rate = float(asis_temp_oee_data.get("perf_rate"))
+        eqp_code = asis_temp_oee_data.get("eqp_code")
+        temp_oee_id = asis_temp_oee_data.get("id")
+
+        print("開始執行 UPDATE")
+        cursor.execute(
+            "UPDATE temp_oee SET oee_rate = %s, perf_rate = %s WHERE id = %s",
+            (tobe_oee_rate, tobe_perf_rate, temp_oee_id)
+        )
+
+        cnx.commit()
+        print(f"更新 temp_oee(id:{temp_oee_id})")
+        print(f"ASIS OEE：{asis_oee_rate}，ASIS 作業效率：{asis_perf_rate}。 ")
+        print(f"TOBE OEE：{tobe_oee_rate}，TOBE 作業效率：{tobe_perf_rate}。 ")
+        print("-"*20)
+
+        updated_dict = {
+            "eqp_id": eqp_id,
+            "work_date": work_date,
+            "eqp_code": eqp_code,
+            "asis_oee_rate": asis_oee_rate,
+            "asis_perf_rate": asis_perf_rate,
+            "tobe_oee_rate": tobe_oee_rate,
+            "tobe_perf_rate": tobe_perf_rate,
+        }
+
+        return updated_dict
+
+    except Exception as e:
+        print(f"update_temp_oee_by_eqp_id 發生錯誤{e}")
+
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception as e:
+            print(f"Error closing connection: {e}")
+            pass 
+
