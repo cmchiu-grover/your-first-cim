@@ -412,7 +412,7 @@ def get_yesterday_oee_data():
         cursor.execute(base_sql, (yesterday_work_date,))
         oee_data = cursor.fetchall()
         print(yesterday_work_date)
-        return oee_data
+        return [yesterday_work_date.strftime("%Y/%m/%d"), oee_data]
 
     except Exception as e:
         print(f"錯誤: {e}")
@@ -723,16 +723,16 @@ def query_eq_status_mfg(
             params["work_date"] = work_date
         if module_name:
             conditions.append("si.module_name = %s")
-            params["module_name"] = f"%{module_name}%"
+            params["module_name"] = f"{module_name}"
         if station_name:
             conditions.append("si.station_name = %s")
-            params["station_name"] = f"%{station_name}%"
+            params["station_name"] = f"{station_name}"
         if eqp_type:
             conditions.append("et.eqp_type = %s")
-            params["eqp_type"] = f"%{eqp_type}%"
+            params["eqp_type"] = f"{eqp_type}"
         if eqp_code:
             conditions.append("ei.eqp_code = %s")
-            params["eqp_code"] = f"%{eqp_code}%"
+            params["eqp_code"] = f"{eqp_code}"
 
 
         if conditions:
@@ -747,6 +747,126 @@ def query_eq_status_mfg(
         
         start_num = (page - 1) * page_size
         base_sql += "ORDER BY es.id LIMIT %s OFFSET %s"
+        params_list = list(params.values()) + [page_size, start_num]
+        
+        cursor.execute(base_sql, tuple(params_list))
+        results = cursor.fetchall()
+
+        next_page = page + 1 if len(results) == page_size else None
+
+        return [total_pages, next_page, results]
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+        
+def query_eqp_data(eqp_type):
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)
+
+        query_eqp_sql = """
+            SELECT ei.id FROM eqp_info AS ei
+            JOIN eqp_types AS et ON ei.eqp_type_id = et.id
+            JOIN station_info AS si ON ei.station_id = si.id
+            WHERE et.eqp_type = %s
+            """
+        cursor.execute(query_eqp_sql, (eqp_type,))
+        eqp_data = cursor.fetchall()
+
+        return eqp_data
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+
+def query_eqp_code_wip(
+        work_date: str = None,
+        module_name: str = None,
+        station_name: str = None,
+        eqp_type: str = None,
+        eqp_code: str = None,
+        page: int = 0,
+        ):
+    page_size: int = 10
+    
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)  
+
+        base_sql = """
+            SELECT ew.id, 
+            si.module_name, 
+            si.station_name, 
+            et.eqp_type, 
+            ei.eqp_code, 
+            ew.work_date, 
+            pi.prod_code, 
+            ew.wip_qty
+            FROM eqp_wip AS ew
+            JOIN eqp_info AS ei ON ew.eqp_id = ei.id
+            JOIN eqp_types AS et ON ei.eqp_type_id = et.id
+            JOIN station_info AS si ON ei.station_id = si.id
+            JOIN prod_info AS pi ON ew.prod_id = pi.id
+            WHERE 1=1
+        """
+
+        count_sql = """
+            SELECT COUNT(ew.id) AS total
+            FROM eqp_wip AS ew
+            JOIN eqp_info AS ei ON ew.eqp_id = ei.id
+            JOIN eqp_types AS et ON ei.eqp_type_id = et.id
+            JOIN station_info AS si ON ei.station_id = si.id
+            JOIN prod_info AS pi ON ew.prod_id = pi.id
+            WHERE 1=1
+        """
+
+        conditions = []
+        params = {}
+
+        if work_date:
+            conditions.append("DATE(ew.work_date) = %s")
+            params["work_date"] = work_date
+        if module_name:
+            conditions.append("si.module_name = %s")
+            params["module_name"] = f"{module_name}"
+        if station_name:
+            conditions.append("si.station_name = %s")
+            params["station_name"] = f"{station_name}"
+        if eqp_type:
+            conditions.append("et.eqp_type = %s")
+            params["eqp_type"] = f"{eqp_type}"
+        if eqp_code:
+            conditions.append("ei.eqp_code = %s")
+            params["eqp_code"] = f"{eqp_code}"
+
+
+        if conditions:
+            base_sql += " AND " + " AND ".join(conditions)
+            count_sql += " AND " + " AND ".join(conditions)
+
+        
+        cursor.execute(count_sql, tuple(params.values()))
+        total_records = cursor.fetchone()['total']
+        total_pages = (total_records + page_size - 1) // page_size
+        
+        
+        start_num = (page - 1) * page_size
+        base_sql += " ORDER BY ew.id LIMIT %s OFFSET %s"
         params_list = list(params.values()) + [page_size, start_num]
 
         cursor.execute(base_sql, tuple(params_list))
@@ -766,4 +886,5 @@ def query_eq_status_mfg(
             cnx.close()
         except:
             pass
-        
+    
+
