@@ -300,10 +300,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const rowData = {
           id: inputs[1].value,
           work_date: inputs[2].value,
-          module_name: inputs[3].value,
           station_name: inputs[4].value,
-          eqp_type: inputs[5].value,
           eqp_code: inputs[6].value,
+          start_time: inputs[7].value,
           comment: inputs[11].value,
         };
         updateData.push(rowData);
