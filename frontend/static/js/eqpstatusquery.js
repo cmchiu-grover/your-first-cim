@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    const apiUrl = "/api/eqp_status_query/eq";
+    const apiUrl = "/api/eqp_status_query/ie";
     const fullUrl = `${apiUrl}?${queryParams.toString()}`;
 
     console.log("查詢 URL:", fullUrl);
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    const apiUrl = "/api/eqp_status_query/eq?page=" + newPage;
+    const apiUrl = "/api/eqp_status_query/ie?page=" + newPage;
     const fullUrl = `${apiUrl}&${queryParams.toString()}`;
     try {
       const response = await fetch(fullUrl, {
@@ -252,8 +252,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+async function setYesterdayDateText(elementId) {
+  const now = new Date();
+  const utc8Time = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+  const yesterday = new Date(utc8Time);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const yyyy = yesterday.getUTCFullYear();
+  const mm = String(yesterday.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(yesterday.getUTCDate()).padStart(2, "0");
+  const formattedDate = `${yyyy}/${mm}/${dd}`;
+
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.textContent = `僅支持查詢 work_date：2025/05/01 ~ ${formattedDate}`;
+  }
+}
+
 async function main() {
   await checkSignin();
+  await setYesterdayDateText("dateInfo");
 }
 
 main();
