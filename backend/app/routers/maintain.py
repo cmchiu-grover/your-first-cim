@@ -151,7 +151,7 @@ async def upload_csv_file(request: Request, file: UploadFile = File(...),):
     decoded = contents.decode("utf-8")
     csv_reader = csv.DictReader(io.StringIO(decoded))
 
-    updated = 0
+    updated_count = 0
     failed_rows = []
     affected_eqp_ids = set()
     affected_details = []
@@ -182,7 +182,7 @@ async def upload_csv_file(request: Request, file: UploadFile = File(...),):
                 affected_eqp_ids.add(item.get("eqp_id"))
                 affected_details.append(item)
             
-            updated += 1
+            updated_count += 1
                 
         except Exception as e:
             print(f"第 {idx} 列處理失敗：{e}")
@@ -207,7 +207,7 @@ async def upload_csv_file(request: Request, file: UploadFile = File(...),):
     notif = NotificationCreate(
         title="標準工時更新",
         message=(
-            f"{current_user.get('name')} 更新了 {updated} 筆標準工時資料，"
+            f"{current_user.get('name')} 更新了 {updated_count} 筆標準工時資料，"
             f"影響機台 {len(affected_eqp_ids)} 台 OEE 資料：\n\n{details_text.strip()}"
         ),
         event_type="standard_time_updated"
@@ -225,7 +225,7 @@ async def upload_csv_file(request: Request, file: UploadFile = File(...),):
             status_code=200,
             content={
                 "ok": True,
-                "message": f"成功更新 {updated} 筆資料。失敗 {len(failed_rows)} 筆。",
+                "message": f"成功更新 {updated_count} 筆資料。失敗 {len(failed_rows)} 筆。",
                 }
                 )
 
