@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List, Optional
-from backend.app.db.dbquery import query_standard_times, query_all_standard_times, query_eq_status_eq, query_eq_status_mfg, query_eqp_code_wip
+from backend.app.db.dbquery import query_standard_times, query_all_standard_times, query_eq_status_eq, query_eq_status_mfg, query_eqp_code_wip, query_eq_status_ie
 from typing import List, Optional
 import csv 
 import io 
@@ -138,6 +138,61 @@ async def download_standard_time_csv(
                 "message":"伺服器錯誤..."
                 }
                 )
+
+@router.get("/api/eqp_status_query/ie")
+async def query_eqp_status_ie(
+    work_date: Optional[str] = Query(None, description="產品代碼"),
+    module_name: Optional[str] = Query(None, description="模組名稱"),
+    station_name: Optional[str] = Query(None, description="站點名稱"),
+    eqp_type: Optional[str] = Query(None, description="設備類型"),
+    eqp_code: Optional[str] = Query(None, description="設備號碼"),
+    page: int = Query(1, ge=1, description="頁碼")
+):
+    try:
+        data_list = query_eq_status_ie(
+            work_date=work_date,
+            module_name=module_name,
+            station_name=station_name,
+            eqp_type=eqp_type,
+            eqp_code=eqp_code,
+            page=page
+        )
+
+        total_pages = data_list[0]
+        next_page = data_list[1]
+        results = data_list[2]
+
+        return {
+            "totalPages": total_pages,
+            "nextPage": next_page,
+            "data": [
+                {   
+                    "id": item["event_id"],
+                    "work_date": item["work_date"].strftime('%Y-%m-%d'),
+                    "module_name": item["module_name"],
+                    "station_name": item["station_name"],
+                    "eqp_type": item["eqp_type"],
+                    "eqp_code": item["eqp_code"],
+                    "start_time": item["start_time"].strftime('%Y-%m-%d %H:%M:%S'),
+                    "end_time": item["end_time"].strftime('%Y-%m-%d %H:%M:%S'),
+                    "duration": float(item["duration"]),
+                    "status": item["status_name"],
+                    "comment": item.get("comment", ""),
+                }
+                for item in results
+            ]
+        }
+
+    except Exception as e:
+        print(f"query_eq_status_ie 錯誤：{e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error":True,
+                "message":"伺服器錯誤..."
+                }
+                )
+
 
 @router.get("/api/eqp_status_query/eq")
 async def query_eqp_status_eq(
@@ -275,7 +330,7 @@ async def query_eqp_wip(
             "nextPage": next_page,
             "data": [
                 {   
-                    "id": item["event_id"],
+                    "id": item["id"],
                     "work_date": item["work_date"].strftime('%Y-%m-%d'),
                     "module_name": item["module_name"],
                     "station_name": item["station_name"],

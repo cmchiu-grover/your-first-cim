@@ -570,7 +570,105 @@ def get_station_oee_data(station_name, work_date):
             cnx.close()
         except:
             pass
+
+def query_eq_status_ie(
+        work_date: str = None,
+        module_name: str = None,
+        station_name: str = None,
+        eqp_type: str = None,
+        eqp_code: str = None,
+        page: int = 0,
+        ):
+    page_size: int = 10
+    
+    try:
+        cnx = get_connection_pool()  
+        cursor = cnx.cursor(dictionary=True)  
+
+        base_sql = """
+            SELECT
+            es.id AS event_id,
+            es.work_date,
+            si.module_name,
+            si.station_name,
+            et.eqp_type,
+            ei.eqp_code,
+            es.start_time,
+            es.end_time,
+            format(es.hours * 60, 1) AS `duration`,
+            st.status_name,
+            es.`comment`
+            FROM eqp_status es
+            INNER JOIN eqp_info ei ON es.eqp_id = ei.id
+            INNER JOIN station_info si ON ei.station_id = si.id
+            INNER JOIN status_types st ON es.status_id = st.id
+            INNER JOIN eqp_types et ON ei.eqp_type_id = et.id
+            WHERE 1=1
+        """
+
+        count_sql = """
+            SELECT COUNT(es.id) AS total
+            FROM
+                eqp_status AS es
+            INNER JOIN eqp_info ei ON es.eqp_id = ei.id
+            INNER JOIN station_info si ON ei.station_id = si.id
+            INNER JOIN status_types st ON es.status_id = st.id
+            INNER JOIN eqp_types et ON ei.eqp_type_id = et.id
+            WHERE 1=1
+        """
+
+        conditions = []
+        params = {}
+
+        if work_date:
+            conditions.append("DATE(es.work_date) = %s")
+            params["work_date"] = work_date
+        if module_name:
+            conditions.append("si.module_name = %s")
+            params["module_name"] = f"{module_name}"
+        if station_name:
+            conditions.append("si.station_name = %s")
+            params["station_name"] = f"{station_name}"
+        if eqp_type:
+            conditions.append("et.eqp_type = %s")
+            params["eqp_type"] = f"{eqp_type}"
+        if eqp_code:
+            conditions.append("ei.eqp_code = %s")
+            params["eqp_code"] = f"{eqp_code}"
+
+
+        if conditions:
+            base_sql += " AND " + " AND ".join(conditions)
+            count_sql += " AND " + " AND ".join(conditions)
+
         
+        cursor.execute(count_sql, tuple(params.values()))
+        total_records = cursor.fetchone()['total']
+        total_pages = (total_records + page_size - 1) // page_size
+        
+        
+        start_num = (page - 1) * page_size
+        base_sql += "ORDER BY es.id LIMIT %s OFFSET %s"
+        params_list = list(params.values()) + [page_size, start_num]
+
+        cursor.execute(base_sql, tuple(params_list))
+        results = cursor.fetchall()
+
+        next_page = page + 1 if len(results) == page_size else None
+
+        return [total_pages, next_page, results]
+
+    except Exception as e:
+        print(f"錯誤: {e}")
+        return None
+    
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except:
+            pass
+    
 def query_eq_status_eq(
         work_date: str = None,
         module_name: str = None,
