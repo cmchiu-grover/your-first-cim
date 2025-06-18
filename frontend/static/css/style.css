@@ -980,7 +980,9 @@ body main section article .article_area form.eqp-status-query-form .eqp-status-q
   justify-content: center;
   align-items: center;
 }
-body main section article .article_area form.oee-table-query-form {
+body main section article .article_area form.oee-table-query-form,
+body main section article .article_area form.eqp-status-query-form,
+body main section article .article_area form.wip-query-form {
   flex-direction: column;
 }
 body main section article .article_area #updateEQButton {
