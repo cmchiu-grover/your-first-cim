@@ -1,68 +1,7 @@
-// import { checkSignin } from "./dashboard.js";
-import { userNameP, funcNavUl } from "./variables.js";
 import { signout } from "./user.js";
-
-async function checkSignin() {
-  const token = localStorage.getItem("access_token");
-
-  if (token) {
-    const response = await fetch("/api/user/auth", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const result = await response.json();
-    const userData = result.data;
-
-    if (userData) {
-      const userName = userData.name;
-      userNameP.textContent = `Hi ${userName}`;
-      //   userNameStrong.textContent = `${userName}`;
-
-      let funcNavUlLi = document.createElement("li");
-      funcNavUlLi.className = "function_nav_ul_li";
-
-      // console.log(userData.position);
-
-      let funcNavUlLiA = document.createElement("a");
-      funcNavUlLiA.textContent = `${userData.position} 維護`;
-
-      funcNavUlLi.appendChild(funcNavUlLiA);
-      funcNavUl.appendChild(funcNavUlLi);
-
-      if (userData.position === "IE") {
-        // 這邊放IE維護
-        funcNavUlLiA.href = "/iemaintain";
-        const eqGanttLi = [...funcNavUl.children].find(
-          (li) => li.textContent.trim() === "機況圖"
-        );
-
-        if (eqGanttLi) {
-          const eqStatusLi = document.createElement("li");
-          eqStatusLi.className = "function_nav_ul_li";
-          eqStatusLi.style.backgroundColor = "#ccc";
-          eqStatusLi.style.borderRadius = "3px";
-
-          const eqStatusA = document.createElement("a");
-          eqStatusA.href = "eqpstatusquery";
-          eqStatusA.textContent = "機況查詢";
-          eqStatusA.style.color = "#000";
-
-          eqStatusLi.appendChild(eqStatusA);
-          eqGanttLi.insertAdjacentElement("afterend", eqStatusLi);
-        }
-      } else {
-        // 這邊放EQ維護
-        window.alert("權限不足，無法進入此頁面！");
-        window.location.href = "/";
-      }
-    }
-  } else {
-    window.alert("請先登入");
-    window.location.href = "/";
-  }
-}
+import { NotificationHandler } from "./notification.js";
+import { checkUserData } from "./auth.js";
+import { renderUserNav } from "./usernav.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const eqQueryForm = document.getElementById("eqp-status-query-form");
@@ -270,7 +209,24 @@ async function setYesterdayDateText(elementId) {
 }
 
 async function main() {
-  await checkSignin();
+  const userData = await checkUserData();
+  if (!userData) return;
+
+  if (userData.position === "IE") {
+    await renderUserNav(userData);
+  } else {
+    alert("權限不足，無法進入此頁面！");
+    window.location.href = "/";
+  }
+
+  const eqStatusLi = document.getElementById("eqStatusLi");
+  const eqStatusA = document.getElementById("eqStatusA");
+  if (eqStatusLi) {
+    eqStatusLi.style.backgroundColor = "#ccc";
+    eqStatusLi.style.borderRadius = "3px";
+    eqStatusA.style.color = "#000";
+  }
+  await NotificationHandler.init({ withSSE: true });
   await setYesterdayDateText("dateInfo");
 }
 

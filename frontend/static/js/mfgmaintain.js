@@ -1,60 +1,7 @@
-// import { checkSignin } from "./dashboard.js";
-import { userNameP, funcNavUl } from "./variables.js";
 import { signout } from "./user.js";
-
-async function checkSignin() {
-  const token = localStorage.getItem("access_token");
-
-  if (token) {
-    const response = await fetch("/api/user/auth", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const result = await response.json();
-    const userData = result.data;
-
-    if (userData) {
-      const userName = userData.name;
-      userNameP.textContent = `Hi ${userName}`;
-      //   userNameStrong.textContent = `${userName}`;
-
-      let funcNavUlLi = document.createElement("li");
-      funcNavUlLi.className = "function_nav_ul_li";
-      funcNavUlLi.style.backgroundColor = "#ccc";
-      funcNavUlLi.style.borderRadius = "3px";
-
-      // console.log(userData.position);
-
-      let funcNavUlLiA = document.createElement("a");
-      funcNavUlLiA.textContent = `${userData.position} 維護`;
-      funcNavUlLiA.style.color = "#000";
-
-      funcNavUlLi.appendChild(funcNavUlLiA);
-      funcNavUl.appendChild(funcNavUlLi);
-
-      if (userData.position === "MFG") {
-        // 這邊放IE維護
-        // console.log("放IE維護");
-        funcNavUlLiA.href = "/mfgmaintain";
-        let funcNavUlDiv = document.createElement("div");
-        funcNavUlDiv.className = "ie_maintain_div";
-
-        // funcNavUlDivA1.style.color = "#e4e6ea";
-
-        funcNavUl.appendChild(funcNavUlDiv);
-      } else {
-        // 這邊放EQ維護
-        window.alert("權限不足，無法進入此頁面！");
-        window.location.href = "/";
-      }
-    }
-  } else {
-    window.alert("請先登入");
-    window.location.href = "/";
-  }
-}
+import { NotificationHandler } from "./notification.js";
+import { checkUserData } from "./auth.js";
+import { renderUserNav } from "./usernav.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const eqQueryForm = document.getElementById("eq-query-form");
@@ -344,7 +291,24 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function main() {
-  await checkSignin();
+  const userData = await checkUserData();
+  if (!userData) return;
+
+  if (userData.position === "MFG") {
+    await renderUserNav(userData);
+  } else {
+    alert("權限不足，無法進入此頁面！");
+    window.location.href = "/";
+  }
+
+  const funcNavUlLi = document.getElementById("funcNavUlLi");
+  const funcNavUlLiA = document.getElementById("funcNavUlLiA");
+  if (funcNavUlLi) {
+    funcNavUlLi.style.backgroundColor = "#ccc";
+    funcNavUlLi.style.borderRadius = "3px";
+    funcNavUlLiA.style.color = "#000";
+  }
+  await NotificationHandler.init({ withSSE: true });
 }
 
 main();

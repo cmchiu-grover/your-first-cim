@@ -1,92 +1,7 @@
-// import { checkSignin } from "./dashboard.js";
-import { userNameP, funcNavUl } from "./variables.js";
 import { signout } from "./user.js";
-
-async function checkSignin() {
-  const token = localStorage.getItem("access_token");
-
-  if (token) {
-    const response = await fetch("/api/user/auth", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const result = await response.json();
-    const userData = result.data;
-
-    if (userData) {
-      const userName = userData.name;
-      userNameP.textContent = `Hi ${userName}`;
-      //   userNameStrong.textContent = `${userName}`;
-
-      let funcNavUlLi = document.createElement("li");
-      funcNavUlLi.className = "function_nav_ul_li";
-      funcNavUlLi.style.backgroundColor = "#ccc";
-      funcNavUlLi.style.borderRadius = "3px";
-
-      // console.log(userData.position);
-
-      let funcNavUlLiA = document.createElement("a");
-      funcNavUlLiA.textContent = `${userData.position} 維護`;
-      funcNavUlLiA.style.color = "#000";
-
-      funcNavUlLi.appendChild(funcNavUlLiA);
-      funcNavUl.appendChild(funcNavUlLi);
-
-      if (userData.position === "IE") {
-        // 這邊放IE維護
-        // console.log("放IE維護");
-        funcNavUlLiA.href = "/iemaintain";
-        let funcNavUlDiv = document.createElement("div");
-        let funcNavUlDivA1 = document.createElement("a");
-        let funcNavUlDivA2 = document.createElement("a");
-        let funcNavUlDivI = document.createElement("i");
-        funcNavUlDivI.className = "material-icons";
-        funcNavUlDivI.style.color = "#000";
-        funcNavUlDivI.textContent = "arrow_right";
-        // funcNavUlDivI.style.fontSize = "16px";
-        funcNavUlDivA1.appendChild(funcNavUlDivI);
-        funcNavUlDiv.className = "ie_maintain_div";
-        funcNavUlDivA1.appendChild(document.createTextNode("工時維護"));
-        funcNavUlDivA1.href = "/iemaintain";
-        funcNavUlDivA1.style.color = "#000";
-        funcNavUlDivA1.style.backgroundColor = "#ccc";
-        funcNavUlDivA2.textContent = "工時查詢";
-        funcNavUlDivA2.href = "/iequery";
-        // funcNavUlDivA2.style.color = "#e4e6ea";
-        funcNavUlDiv.appendChild(funcNavUlDivA1);
-        funcNavUlDiv.appendChild(funcNavUlDivA2);
-        funcNavUl.appendChild(funcNavUlDiv);
-
-        const eqGanttLi = [...funcNavUl.children].find(
-          (li) => li.textContent.trim() === "機況圖"
-        );
-
-        if (eqGanttLi) {
-          const eqStatusLi = document.createElement("li");
-          eqStatusLi.className = "function_nav_ul_li";
-
-          const eqStatusA = document.createElement("a");
-          eqStatusA.href = "eqpstatusquery";
-          eqStatusA.textContent = "機況查詢";
-
-          eqStatusLi.appendChild(eqStatusA);
-          eqGanttLi.insertAdjacentElement("afterend", eqStatusLi);
-        }
-      } else if (userData.position === "MFG") {
-        // 這邊放MFG維護
-        funcNavUlLiA.href = "/mfgmaintain";
-      } else {
-        // 這邊放EQ維護
-        funcNavUlLiA.href = "/eqmaintain";
-      }
-    }
-  } else {
-    window.alert("請先登入");
-    window.location.href = "/";
-  }
-}
+import { NotificationHandler } from "./notification.js";
+import { checkUserData } from "./auth.js";
+import { renderUserNav, renderIEFunction1 } from "./usernav.js";
 
 const updateSTDTButton = document.getElementById("update_stdt_btn");
 
@@ -173,7 +88,27 @@ updateSTDTButton.addEventListener("click", async () => {
 });
 
 async function main() {
-  await checkSignin();
+  const userData = await checkUserData();
+  if (!userData) return;
+
+  if (userData.position === "IE") {
+    await renderUserNav(userData);
+  } else {
+    alert("權限不足，無法進入此頁面！");
+    window.location.href = "/";
+  }
+
+  const funcNavUlLi = document.getElementById("funcNavUlLi");
+  const funcNavUlLiA = document.getElementById("funcNavUlLiA");
+  if (funcNavUlLi) {
+    funcNavUlLi.style.backgroundColor = "#ccc";
+    funcNavUlLi.style.borderRadius = "3px";
+    funcNavUlLiA.style.color = "#000";
+  }
+
+  await renderIEFunction1();
+
+  await NotificationHandler.init({ withSSE: true });
 }
 
 main();

@@ -1,67 +1,7 @@
-// import { checkSignin } from "./dashboard.js";
-import { userNameP, funcNavUl } from "./variables.js";
 import { signout } from "./user.js";
-
-async function checkSignin() {
-  const token = localStorage.getItem("access_token");
-
-  if (token) {
-    const response = await fetch("/api/user/auth", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const result = await response.json();
-    const userData = result.data;
-
-    if (userData) {
-      const userName = userData.name;
-      userNameP.textContent = `Hi ${userName}`;
-      //   userNameStrong.textContent = `${userName}`;
-
-      let funcNavUlLi = document.createElement("li");
-      funcNavUlLi.className = "function_nav_ul_li";
-
-      console.log(userData.position);
-
-      let funcNavUlLiA = document.createElement("a");
-      funcNavUlLiA.textContent = `${userData.position} 維護`;
-
-      if (userData.position === "IE") {
-        // 這邊放IE維護
-        funcNavUlLiA.href = "/iemaintain";
-        const eqGanttLi = [...funcNavUl.children].find(
-          (li) => li.textContent.trim() === "機況圖"
-        );
-
-        if (eqGanttLi) {
-          const eqStatusLi = document.createElement("li");
-          eqStatusLi.className = "function_nav_ul_li";
-
-          const eqStatusA = document.createElement("a");
-          eqStatusA.href = "eqpstatusquery";
-          eqStatusA.textContent = "機況查詢";
-
-          eqStatusLi.appendChild(eqStatusA);
-          eqGanttLi.insertAdjacentElement("afterend", eqStatusLi);
-        }
-      } else if (userData.position === "MFG") {
-        // 這邊放MFG維護
-        funcNavUlLiA.href = "/mfgmaintain";
-      } else {
-        // 這邊放EQ維護
-        funcNavUlLiA.href = "/eqmaintain";
-      }
-
-      funcNavUlLi.appendChild(funcNavUlLiA);
-      funcNavUl.appendChild(funcNavUlLi);
-    }
-  } else {
-    window.alert("請先登入");
-    window.location.href = "/";
-  }
-}
+import { NotificationHandler } from "./notification.js";
+import { checkUserData } from "./auth.js";
+import { renderUserNav } from "./usernav.js";
 
 async function setYesterdayDateText(elementId) {
   const now = new Date();
@@ -81,7 +21,11 @@ async function setYesterdayDateText(elementId) {
 }
 
 async function main() {
-  await checkSignin();
+  const userData = await checkUserData();
+  if (!userData) return;
+
+  await renderUserNav(userData);
+  await NotificationHandler.init({ withSSE: true });
   await setYesterdayDateText("dateInfo");
   // document.getElementById("eq_gantt_chart_img").src = "/api/chart/eqganttchart";
 }
