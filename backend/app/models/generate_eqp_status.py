@@ -310,3 +310,5 @@ def generate_eqp_status():
         except:
             pass
 
+if __name__ == "__main__":
+    generate_eqp_status()

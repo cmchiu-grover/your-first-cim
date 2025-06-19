@@ -268,3 +268,6 @@ async def generate_gantt_chart():
         except Exception as e:
             print(e)
             print("上傳失敗")
+
+if __name__ == "__main__":
+    generate_gantt_chart()

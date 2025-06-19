@@ -13,3 +13,6 @@ def process_oee_data():
 
     insert_final_oee_data(temp_oee_data)
     delete_temp_oee_data(temp_oee_data)
+
+if __name__ == "__main__":
+    process_oee_data()

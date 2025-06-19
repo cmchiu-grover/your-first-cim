@@ -177,3 +177,5 @@ def generate_eqp_wip():
                 print(f'{eqp_code} 在 {work_date} 作業 {product_code}：{insert_qty} 數量')
                 insert_eqp_wip(eqp_code, work_date, product_code, insert_qty)
 
+if __name__ == "__main__":
+    generate_eqp_wip()

@@ -249,3 +249,5 @@ def generate_temp_oee():
         insert_to_temp_oee(eqp_id, eqp_code, station_name, work_date, oee_rate, avail_rate, perf_rate)
         print(f"{eqp_code} 在 {work_date} 的 OEE 為 {oee_rate}%，AR 為 {avail_rate}%，PR 為{perf_rate}%")
 
+if __name__ == "__main__":
+    generate_temp_oee()
