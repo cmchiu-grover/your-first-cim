@@ -1,19 +1,14 @@
 import {
-  signinArea,
   signupArea,
   signupMessage,
   signinMessage,
   hideSigninDisplaySignup,
   hideSignupDisplaySignin,
-  signinButton,
-  signupButton,
   signoutButton,
   closeSignupButton,
   signupForm,
   signinForm,
 } from "./variables.js";
-
-console.log("test...");
 
 async function signup() {
   const username = document.getElementById("signup_name").value;
