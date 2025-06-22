@@ -22,12 +22,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     apiData.data.forEach((item) => {
       const station = item.metrics;
-      console.log(station);
 
       const oeeCell = document.querySelector(
         `#oeeRow td[data-station="${station}"]`
       );
-      console.log(oeeCell);
       if (oeeCell) {
         oeeCell.textContent = item.oee_rate.toFixed(2);
         oeeCell.classList.toggle("low-value", item.oee_rate < 72.0);
@@ -46,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
       if (perfCell) {
         perfCell.textContent = item.perf_rate.toFixed(2);
-        perfCell.classList.toggle("low-value", item.perfCell < 90.0);
+        perfCell.classList.toggle("low-value", item.perf_rate < 90.0);
       }
     });
   }
