@@ -167,6 +167,7 @@ class StandardTimeUpdate(BaseModel):
 
 def update_standard_time_value(item):
     try:
+        print(f"update_standard_time_value(item): {item}")
         cnx = get_connection_pool()
         cursor = cnx.cursor(dictionary=True)
         cursor.execute(
@@ -191,7 +192,7 @@ def update_standard_time_value(item):
             (item.get("stdt"), standard_time_id)
         )
         cnx.commit()
-        print(f"成功更新標準時間: {item.get("prod_code")}, {item.get("eqp_type")}, {item.get("station_name")} {item.get("stdt")}")
+        print(f"成功更新標準時間: {item.get("prod_code")}, {item.get("eqp_type")}, {item.get("station_name")}, {item.get("stdt")}")
 
 
     except mysql.connector.Error as err:

@@ -157,6 +157,7 @@ async def upload_csv_file(request: Request, file: UploadFile = File(...),):
     affected_details = []
 
     for idx, row in enumerate(csv_reader, start=1):
+        print(f"row: {row}")
         try:
             data = {
                 "prod_code": row["prod_code"],
@@ -165,7 +166,7 @@ async def upload_csv_file(request: Request, file: UploadFile = File(...),):
                 "stdt": float(row["standard_time_value"]),
             }
 
-            if not update_standard_time_value(row):
+            if not update_standard_time_value(data):
                 failed_rows.append(idx)
             
             eqp_type = data.get("eqp_type")
