@@ -2,8 +2,7 @@ from fastapi import APIRouter, Request, Query
 from fastapi.responses import JSONResponse, StreamingResponse
 from backend.app.db.dbquery import get_yesterday_oee_data, get_oee_data, get_station_oee_data
 from typing import Optional
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 router = APIRouter()
 
@@ -15,7 +14,24 @@ async def api_get_oee_data(
 ):
     try:
         if date == "yesterday":
-            formatted_date = datetime.today().date() - timedelta(days=1)
+            oee_data = get_yesterday_oee_data()
+            return JSONResponse(
+                status_code=200,
+                content={
+                    "ok":True,
+                    "date": oee_data[0],
+                    "data":[
+                    {
+                        "metrics": item["Metrics"],
+                        "oee_rate": float(item["oee_rate"]),
+                        "avail_rate": float(item["avail_rate"]),
+                        "perf_rate": float(item["perf_rate"]),
+                    }
+                    for item in oee_data[1]
+                    ]
+                    }
+                    )
+
         elif work_date:
             formatted_date = datetime.strptime(work_date, "%Y-%m-%d").date()
         else:
@@ -42,7 +58,7 @@ async def api_get_oee_data(
                 )
 
     except Exception as e:
-        print(f"query_standard_times 錯誤：{e}")
+        print(f"/api/oee 錯誤：{e}")
         return JSONResponse(
             status_code=500,
             content={
