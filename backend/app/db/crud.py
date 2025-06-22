@@ -127,7 +127,6 @@ async def get_current_user(request: Request):
 
     try:
         auth_header = request.headers.get("Authorization")
-        print(f"get_current_user: auth_header = {auth_header}")
             
         if auth_header is None:
             raise HTTPException(

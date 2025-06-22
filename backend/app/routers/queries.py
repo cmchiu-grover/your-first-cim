@@ -1,6 +1,5 @@
-from fastapi import APIRouter, HTTPException, Query, Response
-from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import APIRouter, Query, Response
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List, Optional
@@ -9,27 +8,7 @@ from typing import List, Optional
 import csv 
 import io 
 
-
 router = APIRouter()
-
-
-class StandardTimeRecord(BaseModel):
-    standard_time_id: int
-    prod_code: str
-    prod_name: str
-    eqp_type: str
-    module_name: str
-    station_name: str
-    standard_time_value: float
-    standard_time_description: Optional[str] = None
-    creation_time: datetime
-    updated_time: datetime
-
-class StandardTimeQueryResult(BaseModel):
-    results: List[StandardTimeRecord]
-    total_pages: int
-    current_page: int
-    total_records: int
 
 @router.get("/api/standard_times_query")
 async def query_standard_time(
@@ -192,7 +171,6 @@ async def query_eqp_status_ie(
                 "message":"伺服器錯誤..."
                 }
                 )
-
 
 @router.get("/api/eqp_status_query/eq")
 async def query_eqp_status_eq(
