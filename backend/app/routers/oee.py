@@ -7,49 +7,19 @@ from datetime import timedelta
 
 router = APIRouter()
 
-@router.get("/api/oee/yesterday")
-async def api_get_yesterday_oee_data(
-    request: Request,
-):
-    try:
-        yesterday_oee_data = get_yesterday_oee_data()
-
-        print(yesterday_oee_data)
-
-        return JSONResponse(
-            status_code=200,
-            content={
-                "ok":True,
-                "date": yesterday_oee_data[0],
-                "data":[
-                {
-                    "metrics": item["Metrics"],
-                    "oee_rate": float(item["oee_rate"]),
-                    "avail_rate": float(item["avail_rate"]),
-                    "perf_rate": float(item["perf_rate"]),
-                }
-                for item in yesterday_oee_data[1]
-                ]
-                }
-                )
-
-    except Exception as e:
-        print(f"query_standard_times 錯誤：{e}")
-        return JSONResponse(
-            status_code=500,
-            content={
-                "error":True,
-                "message":"伺服器錯誤..."
-                }
-                )
-
 @router.get("/api/oee")
 async def api_get_oee_data(
     request: Request,
-    work_date: Optional[str] = Query(None, description="work_date (YYYY-MM-DD)")
+    work_date: Optional[str] = Query(None, description="work_date (YYYY-MM-DD)"),
+    date: Optional[str] = Query(None, description="Shortcut for date like 'yesterday'")
 ):
     try:
-        formatted_date = datetime.strptime(work_date, "%Y-%m-%d").date()
+        if date == "yesterday":
+            formatted_date = datetime.today().date() - timedelta(days=1)
+        elif work_date:
+            formatted_date = datetime.strptime(work_date, "%Y-%m-%d").date()
+        else:
+            formatted_date = datetime.today().date()
 
         oee_data = get_oee_data(formatted_date)
         print(oee_data)
@@ -58,6 +28,7 @@ async def api_get_oee_data(
             status_code=200,
             content={
                 "ok":True,
+                "date": formatted_date.isoformat(),
                 "data":[
                 {
                     "metrics": item["Metrics"],
@@ -80,7 +51,7 @@ async def api_get_oee_data(
                 }
                 )
 
-@router.get("/api/oee/station")
+@router.get("/api/oee/stations")
 async def api_get_station_oee_data(
     request: Request,
     station_name: Optional[str] = Query(None, description="station_name"),
