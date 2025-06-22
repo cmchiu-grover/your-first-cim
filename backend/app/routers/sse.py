@@ -40,7 +40,7 @@ async def sse_standard_time(request: Request):
 async def get_unread_notifications(request: Request):
     try:
         user = await get_current_active_user(request)
-        print(f"get_unread_notifications: {user}")
+        print(f"get_unread_notifications: {user.get("id")}")
         
         rows = check_unread_notifications(int(user.get('id')))
         if not rows:
