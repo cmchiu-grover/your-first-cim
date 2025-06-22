@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
 
-    const apiUrl = "/api/oee/station";
+    const apiUrl = "/api/oee/stations";
     const fullUrl = `${apiUrl}?${queryParams.toString()}`;
 
     console.log("查詢 URL:", fullUrl);

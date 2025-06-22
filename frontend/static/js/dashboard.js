@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   try {
-    const response = await fetch("/api/oee/yesterday", {
+    const response = await fetch("/api/oee?date=yesterday", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
