@@ -16,7 +16,7 @@ async function setYesterdayDateText(elementId) {
 
   const element = document.getElementById(elementId);
   if (element) {
-    element.textContent = `僅支持查詢 work_date：2025/05/01 ~ ${formattedDate}`;
+    element.textContent = `僅支持查詢 work_date：2025/06/01 ~ ${formattedDate}`;
   }
 }
 
