@@ -36,7 +36,7 @@ A lightweight CIM (Computer Integrated Manufacturing) application designed for e
 **Structure:**
 
 - Users visit the website and log in to access features.
-- The main index page includes a real-time data table for production monitoring.
+- The main index page includes a data table for daily production monitoring.
 - Core functions include:
   - **Search**: query production data by date, equipment, or status.
   - **Maintain**: update standard times and equipment status records.
@@ -45,6 +45,14 @@ A lightweight CIM (Computer Integrated Manufacturing) application designed for e
 ![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/structure.png)
 
 **ER Diagram:**
+
+The database schema includes the following key tables:
+
+- `users`: stores user credentials and roles.
+- `eqp_status`: tracks the status of each equipment over time.
+- `standard_times`: stores standard operation time for each product.
+- `work_orders`: records production work orders and their schedules.
+- `products`: basic product information.
 
 ![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/ER_diagram.png)
 
