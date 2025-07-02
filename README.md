@@ -33,5 +33,11 @@ A lightweight CIM (Computer Integrated Manufacturing) application designed for e
 
 ## Project Instructions
 
-**Structures**
+**Structure**
 ![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/structure.png)
+
+**ER Diagram**
+![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/ER_diagram.png)
+
+**Redis & SSE Flow**
+![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/drawio.png)
