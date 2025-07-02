@@ -223,6 +223,7 @@ TABLES['gantt_charts'] = (
 TABLES['final_oee'] = (
     "CREATE TABLE `final_oee` ("
     "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  `eqp_id` INT(11) NOT NULL,"
     "  eqp_code VARCHAR(16) NOT NULL,"
     "  station_name VARCHAR(16) NOT NULL,"
     "  module_name VARCHAR(16) NOT NULL,"
@@ -235,6 +236,7 @@ TABLES['final_oee'] = (
     "  `perf_rate` DECIMAL(10,2) NOT NULL,"
     "  `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,"
     "  PRIMARY KEY (`id`),"
+    "  FOREIGN KEY (`eqp_id`) REFERENCES `eqp_info`(`id`),"
     "  INDEX `idx_work_date` (`work_date`),"
     "  INDEX `idx_eqp_code` (`eqp_code`),"
     "  UNIQUE KEY (`eqp_code`, `work_date`)"
@@ -243,6 +245,7 @@ TABLES['final_oee'] = (
 TABLES['temp_oee'] = (
     "CREATE TABLE `temp_oee` ("
     "  `id` INT(11) NOT NULL AUTO_INCREMENT,"
+    "  `eqp_id` INT(11) NOT NULL,"
     "  eqp_code VARCHAR(16) NOT NULL,"
     "  station_name VARCHAR(16) NOT NULL,"
     "  module_name VARCHAR(16) NOT NULL,"
@@ -256,6 +259,7 @@ TABLES['temp_oee'] = (
     "  `creation_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,"
     "  `updated_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,"
     "  PRIMARY KEY (`id`),"
+    "  FOREIGN KEY (`eqp_id`) REFERENCES `eqp_info`(`id`),"
     "  INDEX `idx_work_date` (`work_date`),"
     "  INDEX `idx_eqp_code` (`eqp_code`),"
     "  UNIQUE KEY (`eqp_code`, `work_date`)"
