@@ -48,11 +48,12 @@ A lightweight CIM (Computer Integrated Manufacturing) application designed for e
 
 The database schema includes the following key tables:
 
-- `users`: stores user credentials and roles.
-- `eqp_status`: tracks the status of each equipment over time.
+- `eqp_status`: tracks the status of each equipment.
 - `standard_times`: stores standard operation time for each product.
-- `work_orders`: records production work orders and their schedules.
-- `products`: basic product information.
+- `prod_info`: basic product information.
+- `temp_oee`: temporarily stores raw data for calculating OEE (Overall Equipment Effectiveness).
+- `final_oee`: stores finalized and aggregated OEE results for display and analysis.
+- `users`: stores user credentials and roles.
 
 ![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/ER_diagram.png)
 
