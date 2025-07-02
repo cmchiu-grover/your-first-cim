@@ -17,3 +17,7 @@ plot_25_05_30.py
 plot.ipynb
 docker-compose-local.yml
 nginx_local.conf
+your_first_cim_dump.sql
+redis/
+instruction/
+test.scss
