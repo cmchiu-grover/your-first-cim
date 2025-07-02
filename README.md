@@ -12,21 +12,26 @@ A lightweight CIM (Computer Integrated Manufacturing) application designed for e
 
 ## Tech Stack
 
-**Backend:**  
-- Python (FastAPI)  
-- MySQL  
-- Redis (for SSE pub/sub)  
+**Backend:**
 
-**Frontend:**  
+- Python (FastAPI)
+- MySQL
+- Redis (for SSE pub/sub)
+
+**Frontend:**
+
 - HTML, SCSS, JavaScript
 
-**Database:**  
+**Database:**
+
 - MySQL
 
-**DevOps & Deployment:**  
-- Docker, Nginx  
-- AWS EC2, RDS, S3, CloudFront  
+**DevOps & Deployment:**
+
+- Docker, Nginx
+- AWS EC2, RDS, S3, CloudFront
 
 ## Project Instructions
 
 **Structures**
+![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/structure.png)
