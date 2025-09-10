@@ -59,4 +59,4 @@ The database schema includes the following key tables:
 
 **Redis & SSE Flow:**
 
-![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/drawio.png)
+![image](https://github.com/cmchiu-grover/your-first-cim/blob/main/img/drawio.jpg)
