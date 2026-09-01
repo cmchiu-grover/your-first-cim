@@ -3,6 +3,8 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 
+from backend.app.errors import register_error_handlers
+
 # Routers
 from backend.app.routers.charts import router as eqganttchart_router
 from backend.app.routers.users import router as user_router
@@ -25,6 +27,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+register_error_handlers(app)
 
 app.include_router(eqganttchart_router)
 app.include_router(user_router)
