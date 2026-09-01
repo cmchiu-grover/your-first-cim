@@ -17,6 +17,7 @@ YourFirstCIM is a full-stack web application that provides comprehensive manufac
 ## Tech Stack
 
 ### Backend
+
 - **Framework**: FastAPI 0.110.0
 - **Server**: Uvicorn 0.29.0
 - **Database**: MySQL (via SQLAlchemy 2.0.29)
@@ -27,6 +28,7 @@ YourFirstCIM is a full-stack web application that provides comprehensive manufac
 - **Data Visualization**: Matplotlib 3.8.4
 
 ### Frontend
+
 - **UI**: Static HTML5, SCSS/CSS, vanilla JavaScript (`frontend/static/`)
 - **Real-time client**: `EventSource` (SSE) for live notifications
 - **Web Server**: Nginx (serves static assets, reverse-proxies `/api` and `/sse` to the backend)
@@ -34,6 +36,7 @@ YourFirstCIM is a full-stack web application that provides comprehensive manufac
 > `frontend/cimapp/` contains an unused `create-react-app` scaffold kept from early prototyping; it is not built or served in production (see [Dockerfile](frontend/Dockerfile)).
 
 ### Infrastructure
+
 - **Containerization**: Docker & Docker Compose
 - **Cache/Message Broker**: Redis 7.0
 
@@ -61,6 +64,7 @@ yourfirstcim/
 ## Features
 
 ### Dashboard Pages
+
 - **Dashboard**: Main overview of manufacturing operations
 - **Equipment Gantt Chart**: Visual timeline of equipment usage
 - **OEE Analytics**: Overall Equipment Effectiveness metrics
@@ -72,6 +76,7 @@ yourfirstcim/
 - **Notifications**: Real-time system alerts
 
 ### API Capabilities
+
 - User authentication and authorization
 - Real-time data streaming via SSE
 - Equipment status monitoring
@@ -84,6 +89,7 @@ yourfirstcim/
 ## Getting Started
 
 ### Prerequisites
+
 - Docker and Docker Compose
 - MySQL database
 - AWS account (for S3 storage)
@@ -92,11 +98,13 @@ yourfirstcim/
 ### Environment Setup
 
 1. Copy the environment template:
+
 ```bash
 cp .env.example .env
 ```
 
 2. Configure environment variables in `.env`:
+
 ```env
 # MySQL Configuration
 MYSQL_HOST=your_host
@@ -120,17 +128,20 @@ CLOUDFRONT_DOMAIN=your_cloudfront_domain
 #### Using Docker Compose (Recommended)
 
 1. Build and start all services:
+
 ```bash
 docker-compose up -d
 ```
 
 2. Access the application:
+
 - Frontend: http://localhost
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
 - Redis: localhost:6379
 
 3. Stop the services:
+
 ```bash
 docker-compose down
 ```
@@ -138,6 +149,7 @@ docker-compose down
 #### Local Development
 
 **Backend:**
+
 ```bash
 cd backend
 pip install -r requirements.txt
@@ -148,6 +160,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 The UI is static HTML/CSS/JS served directly by the backend (see the routes in [main.py](backend/app/main.py)) or via Nginx in Docker — no build step is required. For local editing, simply run the backend and open http://localhost:8000, or serve `frontend/static/` with any static file server.
 
 **Redis:**
+
 ```bash
 docker run -d -p 6379:6379 redis:7.0-alpine
 ```
@@ -155,13 +168,16 @@ docker run -d -p 6379:6379 redis:7.0-alpine
 ## API Documentation
 
 Once the backend is running, visit:
+
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
 ## Development
 
 ### Backend Development
+
 The backend follows a **router → service → data-access** layering:
+
 - **Routers** (`backend/app/routers/`) — thin controllers that parse the request and delegate to a service
   - [charts.py](backend/app/routers/charts.py) - Chart generation endpoints
   - [users.py](backend/app/routers/users.py) - User management
@@ -175,6 +191,7 @@ The backend follows a **router → service → data-access** layering:
 - **Models & DB** (`backend/app/models/`, `backend/app/db/`) — OEE/Gantt/WIP generation, Redis pub/sub, and MySQL CRUD/query functions
 
 ### Frontend Development
+
 The frontend is a set of static, server-rendered-free HTML pages (`frontend/static/*.html`) styled with SCSS and progressively enhanced with vanilla JS modules (`frontend/static/js/`), one file per page. FastAPI serves these pages directly in development; Nginx serves them (and proxies API/SSE calls to the backend) in production.
 
 ## Architecture
@@ -216,6 +233,7 @@ flowchart LR
 ```
 
 ### Services
+
 1. **Backend**: FastAPI application handling business logic and API endpoints
 2. **Frontend**: Static HTML/CSS/JS pages served by Nginx
 3. **Redis**: Pub/sub broker for real-time notifications
@@ -223,6 +241,7 @@ flowchart LR
 5. **AWS S3**: Gantt chart image storage (external)
 
 ### Key Features
+
 - **APScheduler**: Automated daily jobs for data processing
 - **SSE**: Real-time updates without WebSocket complexity
 - **Redis Pub/Sub**: Real-time notification broadcasting
@@ -400,6 +419,7 @@ flowchart TD
 ```
 
 Key things this diagram captures about how the project actually behaves:
+
 - The SSE connection (`L5`) is opened once per page load and stays alive independently of any particular update — it is a long-running subscriber, not a request/response call.
 - `publish_update` (`L2`→`L4`) and the SSE subscriber loop (`L5`) are decoupled through Redis: the maintain flow never talks to connected browsers directly, so it doesn't need to know who's listening.
 - The SSE payload itself only carries a lightweight signal (`sse.js` just flips a red dot); the actual notification content is fetched afterwards via the regular `/api/notifications*` REST endpoints, not pushed through SSE. This keeps the pub/sub channel generic and the notification data consistent with what's stored in MySQL.
